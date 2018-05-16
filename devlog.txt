@@ -1,2 +1,5 @@
 gaoJ -- 2018-14-05 19:30
 Created devlog and uploaded design doc
+
+gaoJ -- 2018-16-05 13:41
+Created index.html, create.html, and login.html (allows users to create account and log in), started app.py and added routes related to those html files
