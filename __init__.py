@@ -44,6 +44,7 @@ def join():
 def tasks():
     if loggedIn():
         user=session["username"]
+        return render_template("home.html", loggedin=loggedIn())
     else:
         return redirect(url_for("login_page"))
 
