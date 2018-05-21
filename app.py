@@ -3,6 +3,9 @@ import sqlite3
 app = Flask(__name__)
 import utils.users as users
 
+#users.create_table()
+app.secret_key = "THIS IS NOT SECURE"
+
 #Returns true or false depending on whether an account is logged in.
 def loggedIn():
     return "username" in session
@@ -21,14 +24,13 @@ def login_page():
     else:
         return render_template("login.html")
 
-#This is where the login form leads. On succesful login -> profile page. Otherwise back to /account/login
 @app.route('/account/login/post', methods=['POST'])
 def login_logic():
     uname = request.form.get("username", "")
     pword = request.form.get("password", "")
     if users.validate_login(uname, pword):
         session["username"] = uname
-        return redirect(url_for("profile_route"))
+        return redirect(url_for("tasks"))
     else:
         flash("Wrong username or password.")
         return redirect(url_for("login_page"))
@@ -47,7 +49,6 @@ def joinRedirect():
     uname = request.form.get("username", "")
     pword = request.form.get("password", "")
     pass2 = request.form.get("passwordConfirm", "")
-    pfp_url = request.form.get("pfp", "")
     if users.user_exists(uname):
         flash("This account name has already been taken, so please choose another.")
         return redirect(url_for("join"))
@@ -55,7 +56,7 @@ def joinRedirect():
         flash("Make sure you retype your password the same way in both boxes.")
         return redirect(url_for("join"))
     else:
-        users.add_new_user(uname, pword, pfp_url)
+        users.add_new_user(uname, pword)
         flash('The account "' + uname + '" has been created. Please login to confirm.')
         return redirect(url_for("login_page"))
 
