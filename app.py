@@ -69,6 +69,17 @@ def tasks():
     else:
         return redirect(url_for("login_page"))
 
+#User submits task/reminder
+@app.route('/submitted', methods=["POST"])
+def submitted():
+    if loggedIn():
+        user=session["username"]
+        task=request.form["task"]
+        #users.add_task(user, task) #calls db method 
+        return render_template("submitted.html", username=user, loggedin=loggedIn())
+    else:
+        return redirect(url_for("login_page"))
+    
  #Log out
 @app.route('/account/logout')
 def logout():
