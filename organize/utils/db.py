@@ -1,14 +1,49 @@
 import sqlite3 #enables control of an sqlite database
 
-db_name = "data/organizer.db"
+def openDb(path):
+    db = sqlite3.connect(path)
+    return db
+
+def getCursor(db):
+    c = db.cursor()
+    return c
+
+def saveDb(db):
+    db.commit()
+
+def closeDb(db):
+    db.close()
 
 #Run once, creates the table
-def create_table():
+#example: createTable('users', [ ['username', 'TEXT PRIMARY KEY'], ['password', 'TEXT'] ])
+def createTable(name, columns):
     db = sqlite3.connect(db_name)
-    cursor = db.cursor()
-    cursor.execute("CREATE TABLE users (username TEXT PRIMARY KEY, password TEXT);")
-    db.commit()
-    db.close()
+    cursor = getCursor(db)
+    cmdString = 'CREATE TABLE' + str(name) + '('
+    [cmdString += str(column[0]) + ' ' + str(column[1]) for column in columns]
+    cmdString += ');'
+    cursor.execute(cmdString)
+    saveDb(db)
+    closeDb(db)
+
+def insertRow(table, fields, values, cursor):
+    parameter = ' ('
+
+    for field in fields:
+        parameter += field + ", "
+    parameter = parameter[0:-2] + ") VALUES ("
+
+    for value in values:
+        val = str(value)
+        if isinstance(value, basestring):
+            val = "'" + val + "'"
+        parameter += val + ", "
+    parameter = parameter[0:-2] + ");"
+
+    insert = "INSERT INTO " + tableName + parameter
+    print "\n\n" + insert + "\n\n"
+
+    cursor.execute(insert)
 
 ##################
 ## USER METHODS ##
