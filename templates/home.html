@@ -1,11 +1,12 @@
 {% extends "index.html" %}
-<!--
+
 {% block title %}
 Home
 {% endblock %}
--->
+
 
 {% block head %}
+<link rel="stylesheet" href="static/bootstrap.min.css" type="text/css">
 <style>
 	* {box-sizing: border-box;}
 	ul {list-style-type: none;}
@@ -92,11 +93,55 @@ Home
 	</style>
 {% endblock %}
 {% block body %}
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <a class="navbar-brand" href="#">Navbar</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item active">
+        <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#">Shop</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#">Stats</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#">Mini Calendar</a>
+      </li>
+	  </ul>
+  </div>
+</nav>
+
+
+
+
+<!--
+<div class="container">
+	<button type="button" class="btn btn-default">Shop</button>
+	<button type="button" class="btn btn-default">Stats</button>
+	<button type="button" class="btn btn-default">Mini Calendar</button>
+</div>
+	  -->
+
 <h3>Add Tasks/Reminders</h3>
 <br>
 <form action="/submitted" method="POST">
-  <textarea name="task" rows="10" cols="20">Task/Reminder</textarea>
+  <textarea name="task" rows="10" cols="20" style="padding: 12px 20px;
+    box-sizing: border-box;
+    border: 2px solid #ccc;
+    border-radius: 4px;
+    background-color: #ffc;
+    font-size: 16px;
+    font-color: #666;
+    resize: none;">Enter a new task/reminder</textarea>
   <br>
+  Date: <input type="date" name="taskdate">
   <input type="submit" value="Add Task">
   </form>
   
