@@ -1,5 +1,6 @@
 from flask import Flask, flash, render_template, request, session, redirect, url_for
 import sqlite3
+import urllib2, json
 app = Flask(__name__)
 import utils.users as users
 
@@ -74,6 +75,13 @@ def logout():
     if loggedIn():
         session.pop('username')
     return redirect(url_for('home'))
+
+@app.route('/shopping')
+def shopping():
+    raw = urllib2.urlopen("https://svcs.ebay.com/services/search/FindingService/v1?OPERATION-NAME=findItemsByKeywords&SERVICE-VERSION=1.0.0&SECURITY-APPNAME=MdAbedin-test-PRD-a5d705b3d-43eeb6a2&RESPONSE-DATA-FORMAT=JSON&REST-PAYLOAD&keywords=cat%20food")
+    string = raw.read()
+    d = json.loads(string)
+    return render_template("ebay.html", title = d["findItemsByKeywordsResponse"][0]["searchResult"][0]["item"][0]["title"])
 
 if __name__ == "__main__":
     app.debug = True

@@ -1,0 +1,8 @@
+App ID (Client ID)
+YiduoKe-organize-PRD-f7141958a-70674270
+
+Dev ID
+3f9b3ae6-e807-4a75-9212-e1162bec396f
+
+Cert ID (Client Secret)
+PRD-7141958ae577-9791-41c2-b53c-40e7

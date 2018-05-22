@@ -1,0 +1,3 @@
+AWSAccessKeyId: AKIAI7AKNW4XVCA5GSLA
+AWSSecretKey: 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
+organizer02-20
