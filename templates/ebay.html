@@ -3,8 +3,16 @@
   <head>
   </head>
   <body>
-    <img src="{{ picture }}" style="width:100px;height:100px;">
-    {{ title }}
-    {{ price }}
+    {% for entry in range(6) %}
+        {% set title = title_listy[loop.index0] %}
+        {{ title }}
+
+        {% set picture = picture_listy[loop.index0] %}
+        <img src="{{ picture }}" style="width:100px;height:100px;">
+
+        {% set price = price_listy[loop.index0] %}
+        {{ price }}
+        <br><br>
+    {% endfor %}
   </body>
 </html>

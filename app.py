@@ -81,7 +81,17 @@ def shopping():
     raw = urllib2.urlopen("https://svcs.ebay.com/services/search/FindingService/v1?OPERATION-NAME=findItemsByKeywords&SERVICE-VERSION=1.0.0&SECURITY-APPNAME=MdAbedin-test-PRD-a5d705b3d-43eeb6a2&RESPONSE-DATA-FORMAT=JSON&REST-PAYLOAD&keywords=cat%20food")
     string = raw.read()
     d = json.loads(string)
-    return render_template("ebay.html", title = d["findItemsByKeywordsResponse"][0]["searchResult"][0]["item"][0]["title"])
+
+    title_list = []
+    picture_list = []
+    price_list = []
+
+    for i in range(6):
+        title_list.append(d["findItemsByKeywordsResponse"][0]["searchResult"][0]["item"][i]["title"][0])
+        picture_list.append(d["findItemsByKeywordsResponse"][0]["searchResult"][0]["item"][i]["galleryURL"][0])
+        price_list.append(d["findItemsByKeywordsResponse"][0]["searchResult"][0]["item"][i]["sellingStatus"][0]["convertedCurrentPrice"][0]["__value__"])
+
+    return render_template("ebay.html", title_listy = title_list, picture_listy = picture_list, price_listy = price_list)
 
 if __name__ == "__main__":
     app.debug = True
