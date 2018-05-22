@@ -1,5 +1,6 @@
 from flask import Flask, flash, render_template, request, session, redirect, url_for
 import sqlite3
+import urllib2, json
 app = Flask(__name__)
 import utils.users as users
 
@@ -97,13 +98,13 @@ def shopping():
     picture_list = []
     price_list = []
 
-    for i in range(6):
+    for i in range(5):
         title_list.append(d["findItemsByKeywordsResponse"][0]["searchResult"][0]["item"][i]["title"][0])
         picture_list.append(d["findItemsByKeywordsResponse"][0]["searchResult"][0]["item"][i]["galleryURL"][0])
         price_list.append(d["findItemsByKeywordsResponse"][0]["searchResult"][0]["item"][i]["sellingStatus"][0]["convertedCurrentPrice"][0]["__value__"])
 
     return render_template("ebay.html", title_listy = title_list, picture_listy = picture_list, price_listy = price_list)
-    
+
 if __name__ == "__main__":
     app.debug = True
     app.run()
