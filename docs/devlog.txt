@@ -1,5 +1,12 @@
-gaoJ -- 2018-14-05 19:30
+jennyG -- 2018-05-14 19:30
 Created devlog and uploaded design doc
 
-gaoJ -- 2018-16-05 13:41
+jennyG -- 2018-05-16 13:41
 Created index.html, create.html, and login.html (allows users to create account and log in), started app.py and added routes related to those html files
+
+jennyG -- 2018-05-21 13:57
+Created db table so users can now create accounts and log in, also worked on the home ("tasks" route) page, which has a section allowing users to add tasks/reminders
+
+mdA -- 2018-05-22 22:05:16
+cleaned and restructured code, wrote main dbHelper fxns, got logins and creates working, added log.sh file, fixed devlog
+
