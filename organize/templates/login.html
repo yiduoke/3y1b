@@ -7,7 +7,7 @@ Log In
 <center>
 <h2> Log In </h2>
     <div class = "col-md-5 container login">
-      <form method="POST" action="/account/login/post">
+      <form method="POST" action="/login/authenticate">
 
       {% with messages = get_flashed_messages() %}
       {% if messages %}
@@ -34,7 +34,7 @@ Log In
       </div>
 
 
-    New? <a href="/account/create">Create Account</a>
+    New? <a href="/create">Create Account</a>
     </form>
     </div>
 </center>
