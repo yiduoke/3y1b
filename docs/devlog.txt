@@ -10,3 +10,6 @@ Created db table so users can now create accounts and log in, also worked on the
 mdA -- 2018-05-22 22:05:16
 cleaned and restructured code, wrote main dbHelper fxns, got logins and creates working, added log.sh file, fixed devlog
 
+mdA -- 2018-05-22 22:19:16
+fixed devlog location, fixed a button link
+
