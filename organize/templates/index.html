@@ -13,6 +13,7 @@
 	       url({{url_for('static', filename='covered.jpg')}})"
 	{% endblock %}>
 
+<div class="container">
   <!-- TOP BAR =================================== -->
   <nav class="navbar navbar-expand-lg navbar-light bg-light">
 
@@ -28,6 +29,12 @@
         {% if loggedin %}
         <li class="nav-item ">
           <a class="nav-link" href="/tasks">Tasks</a>
+        </li>
+        <li class="nav-item ">
+          <a class="nav-link" href="/shopping">Shop</a>
+        </li>
+        <li class="nav-item ">
+          <a class="nav-link" href="/leaderboard">Leaderboard</a>
         </li>
       </ul>
 
@@ -52,11 +59,11 @@
 
         {% endif %}
   </nav>
-
+</div>
 <div class="body">
 <br>
 {% block body %}
-CONTENT
+<div class="container">CONTENT</div>
 {% endblock %}
 </div>
 <br>

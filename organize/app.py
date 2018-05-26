@@ -1,4 +1,5 @@
 from flask import Flask, flash, render_template, request, session, redirect, url_for
+import urllib2, json
 import sqlite3
 import os
 import utils.dbHelper as db
@@ -92,6 +93,24 @@ def logout():
         session.pop('username')
         
     return redirect(url_for('home'))
+  
+@app.route('/shopping')
+def shopping():
+    raw = urllib2.urlopen("https://svcs.ebay.com/services/search/FindingService/v1?OPERATION-NAME=findItemsByKeywords&SERVICE-VERSION=1.0.0&SECURITY-APPNAME=MdAbedin-test-PRD-a5d705b3d-43eeb6a2&RESPONSE-DATA-FORMAT=JSON&REST-PAYLOAD&keywords=cat%20food")
+    string = raw.read()
+    d = json.loads(string)
+
+    title_list = []
+    picture_list = []
+    price_list = []
+
+    for i in range(5):
+        title_list.append(d["findItemsByKeywordsResponse"][0]["searchResult"][0]["item"][i]["title"][0])
+        picture_list.append(d["findItemsByKeywordsResponse"][0]["searchResult"][0]["item"][i]["galleryURL"][0])
+        price_list.append(d["findItemsByKeywordsResponse"][0]["searchResult"][0]["item"][i]["sellingStatus"][0]["convertedCurrentPrice"][0]["__value__"])
+
+    return render_template("ebay.html", title_listy = title_list, picture_listy = picture_list, price_listy = price_list)
+
 
 if __name__ == "__main__":
     app.debug = True
