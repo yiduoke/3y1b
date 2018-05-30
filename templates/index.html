@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html style="height: 100%">
   <head>
-    <link rel="stylesheet" href="static/css/bootstrap.min.css">
-    <link rel="stylesheet" href="static/css/custom.css">
-    
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/css/bootstrap.min.css">
+    <link rel="stylesheet" href="static/bootstrap.min.css" type="text/css">
+    <link rel="stylesheet" href="static/custom.css" type="text/css">
   {% block head %}
     <title>{% block title %} TITLE {% endblock %}</title>
     {% endblock %}
@@ -13,7 +13,6 @@
 	       url({{url_for('static', filename='covered.jpg')}})"
 	{% endblock %}>
 
-<div class="container">
   <!-- TOP BAR =================================== -->
   <nav class="navbar navbar-expand-lg navbar-light bg-light">
 
@@ -30,10 +29,7 @@
         <li class="nav-item ">
           <a class="nav-link" href="/tasks">Tasks</a>
         </li>
-        <li class="nav-item ">
-          <a class="nav-link" href="/shopping">Shop</a>
-        </li>
-        <li class="nav-item ">
+	 <li class="nav-item ">
           <a class="nav-link" href="/leaderboard">Leaderboard</a>
         </li>
       </ul>
@@ -47,23 +43,23 @@
 
         {% else %}
         <li class="nav-item">
-          <a class="nav-link" href="/create">Join</a>
+          <a class="nav-link" href="/account/create">Join</a>
         </li>
       </ul>
 
       <ul class = "nav navbar-nav ml-auto">
         <li class = "nav-item">
-          <a href="/login" ><button class="btn btn-outline-success my-2 my-sm-0">Login</button> </a>
+          <a href="/account/login" ><button class="btn btn-outline-success my-2 my-sm-0">Login</button> </a>
         </li>
       </ul>
 
         {% endif %}
   </nav>
-</div>
+
 <div class="body">
 <br>
 {% block body %}
-<div class="container">CONTENT</div>
+CONTENT
 {% endblock %}
 </div>
 <br>

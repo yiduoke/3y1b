@@ -1,11 +1,10 @@
-import dbHelper as data
+import sqlite3
+import dbHelper as db
+from datetime import date,datetime
 
-data.switchDb('../data/db.db')
+#db.createUsersTable()
+#db.addUser('md', 'md')
+#db.addTask('md', 'finish softdev', datetime.now(), 500)
+db.completeTask('md', 'finish softdev')
 
-data.createTable('users', [['username', 'TEXT PRIMARY KEY'], ['password', 'TEXT']])
-#data.insertRow('users', ['username', 'password'], ['"md"', '"pw"'])
-print data.userExists('md')
-print data.validateLogin('mds', 'pwd')
-data.addUser('md2', 'pw')
-print data.userExists('md2')
 print 'done'
