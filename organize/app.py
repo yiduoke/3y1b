@@ -78,11 +78,11 @@ def tasks():
 #User submits task/reminder
 @app.route('/submitted', methods=["POST"])
 def submitted():
-    if loggedIn():
+    if isLoggedIn():
         user=session["username"]
         task=request.form["task"]
         #users.add_task(user, task) #calls db method 
-        return render_template("submitted.html", username=user, loggedin=loggedIn())
+        return render_template("submitted.html", username=user, loggedin=isLoggedIn())
     else:
         return redirect(url_for("login_page"))
     

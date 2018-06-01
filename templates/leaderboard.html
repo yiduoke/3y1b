@@ -1,10 +1,125 @@
-{% extends "index.html" %}
+<!DOCTYPE html>
+<head>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/css/bootstrap.min.css">
+    <link rel="stylesheet" href="static/custom.css" type="text/css">
+    <title>Leaderboard</title>
+    <script src="https://d3js.org/d3.v4.min.js"></script>
+    <style> /* set the CSS */
 
-{% block title %}
-Leaderboard
-{% endblock %}
-{% block body %}
-<br>
-<h1>Leaderboard</h1>
-{% endblock %}
+.line {
+  fill: none;
+  stroke: steelblue;
+  stroke-width: 2px;
+}
 
+</style>
+  <body>
+     {% block background %}
+	style="height: 100%; background-image:
+	       url({{url_for('static', filename='covered.jpg')}})"
+	{% endblock %}>
+
+    <!-- TOP BAR =================================== -->
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+
+    <a class="navbar-brand" href="#">ORGANIZER</a>
+
+
+      <!-- left part of navbar -->
+      <ul class="navbar-nav navbar-left">
+        <li class="nav-item active">
+          <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
+        </li>
+
+        {% if loggedin %}
+        <li class="nav-item ">
+          <a class="nav-link" href="/tasks">Tasks</a>
+        </li>
+	 <li class="nav-item ">
+          <a class="nav-link" href="/leaderboard">Leaderboard</a>
+        </li>
+      </ul>
+
+      <!-- right part of navbar -->
+      <ul class= "nav navbar-nav ml-auto">
+        <li class="nav-item">
+          <a href="/account/logout" ><button class="btn btn-outline-success my-2 my-sm-0 nav_button" >Logout</button> </a>
+        </li>
+      </ul>
+
+        {% else %}
+        <li class="nav-item">
+          <a class="nav-link" href="/account/create">Join</a>
+        </li>
+      </ul>
+
+      <ul class = "nav navbar-nav ml-auto">
+        <li class = "nav-item">
+          <a href="/account/login" ><button class="btn btn-outline-success my-2 my-sm-0">Login</button> </a>
+        </li>
+      </ul>
+
+        {% endif %}
+</nav>
+<script>
+
+// set the dimensions and margins of the graph
+var margin = {top: 20, right: 20, bottom: 30, left: 50},
+    width = 960 - margin.left - margin.right,
+    height = 500 - margin.top - margin.bottom;
+
+// parse the date / time
+var parseTime = d3.timeParse("%d-%b-%y");
+
+// set the ranges
+var x = d3.scaleTime().range([0, width]);
+var y = d3.scaleLinear().range([height, 0]);
+
+// define the line
+var valueline = d3.line()
+    .x(function(d) { return x(d.date); })
+    .y(function(d) { return y(d.tasks); });
+
+// append the svg obgect to the body of the page
+// appends a 'group' element to 'svg'
+// moves the 'group' element to the top left margin
+var svg = d3.select("body").append("svg")
+    .attr("width", width + margin.left + margin.right)
+    .attr("height", height + margin.top + margin.bottom)
+  .append("g")
+    .attr("transform",
+          "translate(" + margin.left + "," + margin.top + ")");
+
+// Get the data
+d3.csv("static/data.csv", function(error, data) {
+  if (error) throw error;
+
+  // format the data
+  data.forEach(function(d) {
+      d.date = parseTime(d.date);
+      d.tasks = +d.tasks;
+  });
+
+  // Scale the range of the data
+  x.domain(d3.extent(data, function(d) { return d.date; }));
+  y.domain([0, d3.max(data, function(d) { return d.tasks; })]);
+
+  // Add the valueline path.
+  svg.append("path")
+      .data([data])
+      .attr("class", "line")
+      .attr("d", valueline);
+
+  // Add the X Axis
+  svg.append("g")
+      .attr("transform", "translate(0," + height + ")")
+      .call(d3.axisBottom(x));
+
+  // Add the Y Axis
+  svg.append("g")
+      .call(d3.axisLeft(y));
+
+});
+
+</script>
+</body>

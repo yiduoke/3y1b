@@ -134,9 +134,9 @@ Home
 <h3>Add Tasks/Reminders</h3>
 <br>
 <div class="row">
-	<div class="col-md-3" style="text-align: center;">
+	<div class="col-md-3" style="text-align: center; background-color:#D9D9D9; padding:5px">
 		<form action="/submitted" method="POST">
-  		  <textarea name="task" rows="10" cols="20" style="padding: 12px 20px;
+  		  <textarea name="task" rows="8" cols="20" style="padding: 12px 20px;
    	   		box-sizing: border-box;
    	 		border: 2px solid #ccc;
     		border-radius: 4px;
@@ -147,7 +147,9 @@ Home
     		resize: none;">Enter a new task/reminder</textarea>
   		  <br>
   		Date: <input type="date" name="taskdate">
-  	  	<input type="submit" value="Add Task">
+		Task Time (minutes): <input type="number" style="width:20%" min = "0" name="tasktime"><br>
+  	  	<input type = "checkbox" name="time" value="no"> I would not like to be timed.
+		<input type="submit" value="Add Task">
   		</form>
 	</div>
 	<div class="col-md-9">
