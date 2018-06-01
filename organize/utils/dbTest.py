@@ -4,7 +4,10 @@ from datetime import date,datetime
 
 #db.createUsersTable()
 #db.addUser('md', 'md')
-#db.addTask('md', 'finish softdev', datetime.now(), 500)
-db.completeTask('md', 'finish softdev')
+#db.addTask('md', 'test2', datetime.now(), 6000)
+#db.completeTask('md', 'test')
 
+print db.getCompletedMonth('md', 5)
+print datetime.now().month
+#print datetime(1, 1, 1, 0, 0)
 print 'done'

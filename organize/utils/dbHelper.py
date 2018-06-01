@@ -2,6 +2,9 @@
 todo:
 - make stuff not crash when duplicate tasks are entered
 - add timeDifference to tasks table
+- get list of tasks for a user
+- # of tasks completed for a user for given month or year, give # for each day
+- use actual num days of month, not 31
 '''
 
 import sqlite3
@@ -14,7 +17,7 @@ IMPORTANT NOTES:
 -    always save and close db at the end if you add any new db modification functions
 '''
 
-dbPath = 'data/db.db'
+dbPath = '../data/db.db'
 
 def switchDb(path):
     global dbPath
@@ -125,12 +128,13 @@ def addUser(username, password):
 def createUsersTable():
     createTable('users', [['username', 'TEXT PRIMARY KEY'], ['password', 'TEXT']])
     
-#adds a task to a specific user's task table. the endTime and actualTime columns are set to -1 because they're determined on task completion, not creation
+#adds a task to a specific user's task table. the endTime and actualTime columns are set to a dummy time because they're determined on task completion, not creation
 def addTask(username, task, startTime, expectedTime):
     db = openDb()
     cursor = getCursor(db)
+    dummyTime = datetime(1, 1, 1, 0, 0)
     
-    cursor.execute('INSERT INTO ' + username + ' VALUES (?, ?, ?, ?, ?)', (task, startTime, '-1', expectedTime, '-1'))
+    cursor.execute('INSERT INTO ' + username + ' VALUES (?, ?, ?, ?, ?)', (task, startTime, dummyTime, expectedTime, -1))
 
     saveDb(db)
     closeDb(db)
@@ -148,3 +152,31 @@ def completeTask(username, task):
 
     saveDb(db)
     closeDb(db)
+
+'''
+- # of tasks completed for a user for given month give # for each day
+'''
+
+def getNumCompleted(day, tasks):
+    count = 0
+    
+    for task in tasks:
+        if task[2].day == day:
+            count += 1
+
+    return count
+
+def getCompletedMonth(username, month):
+    db = openDb()
+    cursor = getCursor(db)
+    
+    cursor.execute('SELECT * FROM %s WHERE actualTime != -1' % (username))
+    
+    tasks = cursor.fetchall()
+    
+    completed = dict()
+    
+    for i in range(32):
+        completed[i] = getNumCompleted(i, tasks)
+
+    return completed

@@ -16,3 +16,6 @@ fixed devlog location, fixed a button link
 mdA -- 2018-05-30 17:15:50
 added task handling db functions, implemented time difference calculations, fixed some bugs
 
+mdA -- 2018-06-01 14:01:35
+added fxn to get num of completed tasks every day of a given month, changed endTime's dummy val in db to a datetime instead of -1
+
