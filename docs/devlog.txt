@@ -16,3 +16,6 @@ fixed devlog location, fixed a button link
 mdA -- 2018-05-30 17:15:50
 added task handling db functions, implemented time difference calculations, fixed some bugs
 
+yiduoK -- 2018-06-01 13:32:21
+shopping stuff in /task route; just a dummy item now need to adapt it to any item user inputs
+

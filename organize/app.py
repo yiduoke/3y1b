@@ -103,13 +103,15 @@ def shopping():
     title_list = []
     picture_list = []
     price_list = []
+    url_list = []
 
     for i in range(5):
         title_list.append(d["findItemsByKeywordsResponse"][0]["searchResult"][0]["item"][i]["title"][0])
         picture_list.append(d["findItemsByKeywordsResponse"][0]["searchResult"][0]["item"][i]["galleryURL"][0])
         price_list.append(d["findItemsByKeywordsResponse"][0]["searchResult"][0]["item"][i]["sellingStatus"][0]["convertedCurrentPrice"][0]["__value__"])
-
-    return render_template("ebay.html", title_listy = title_list, picture_listy = picture_list, price_listy = price_list)
+        url_list.append(d["findItemsByKeywordsResponse"][0]["searchResult"][0]["item"][i]["viewItemURL"][0])
+        
+    return render_template("ebay.html", title_listy = title_list, picture_listy = picture_list, price_listy = price_list, url_listy = url_list)
 
 
 if __name__ == "__main__":
