@@ -9,6 +9,7 @@ todo:
 
 import sqlite3
 from datetime import datetime
+from calendar import monthrange
 
 '''
 IMPORTANT NOTES:
@@ -166,7 +167,7 @@ def getNumCompleted(day, tasks):
 
     return count
 
-def getCompletedMonth(username, month):
+def getCompletedMonth(username, month, year):
     db = openDb()
     cursor = getCursor(db)
     
@@ -176,7 +177,9 @@ def getCompletedMonth(username, month):
     
     completed = dict()
     
-    for i in range(32):
+    numDays = monthrange(year, month)[1]
+    
+    for i in range(numDays+1):
         completed[i] = getNumCompleted(i, tasks)
 
     return completed
