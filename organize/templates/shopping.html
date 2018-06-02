@@ -135,8 +135,8 @@ Home
 <br>
 <div class="row">
 	<div class="col-md-3" style="text-align: center; background-color:#D9D9D9; padding:5px">
-		<form action="/submitted" method="POST">
-  		  <textarea name="task" rows="8" cols="20" style="padding: 12px 20px;
+		<form method="POST">
+  			<textarea name="item" rows="8" cols="20" style="padding: 12px 20px;
    	   		box-sizing: border-box;
    	 		border: 2px solid #ccc;
     		border-radius: 4px;
@@ -144,9 +144,11 @@ Home
     		font-size: 16px;
     		font-color: #666;
 			width:100%;
-    		resize: none;">Enter a New Item to be Shopped</textarea>
-  		  <br>
-		<input type="submit" value="Add Item">
+			resize: none;">Enter a New Item to be Shopped
+			</textarea>
+
+  		  	<br>
+			<input type="submit" value="Add Item">
   		</form>
 	</div>
 	<div class="col-md-9">
@@ -154,11 +156,18 @@ Home
       items will go here
       <br>
 
-      {% for item in items %}
-        item
-      {% endfor %}
-      <!-- PLEASE DON'T DELETE THESE COMMENT LINES I NEED THEM LATER!! -->
-      <!-- {% for entry in range(5) %}
+	  {% for item in items%}
+	  	{{ item }}
+		<!-- <div>
+			{{ item }}
+		</div> -->
+		<br>
+	  {% endfor %}
+
+	  {#
+
+      PLEASE DON'T DELETE THESE COMMENT LINES I NEED THEM LATER!!
+      {% for entry in range(5) %}
 
         {% set title = title_listy[loop.index0] %}
         {% set picture = picture_listy[loop.index0] %}
@@ -176,7 +185,9 @@ Home
         </div>
 
         <br><br>
-      {% endfor %} -->
+	  {% endfor %}
+	  
+	  #}
     </p>
 	</div>
 </div>

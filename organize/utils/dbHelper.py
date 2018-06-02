@@ -10,7 +10,7 @@ from datetime import datetime
 '''
 IMPORTANT NOTES:
 -    if you make your own db modify functions, make sure to enter strings as '"text"' instead of just 'text'
--    the functions i've written work with normal strings as arguments though, so don't pass '"text"' into them
+-    the functions I've written work with normal strings as arguments though, so don't pass '"text"' into them
 -    always save and close db at the end if you add any new db modification functions
 '''
 
@@ -112,6 +112,7 @@ def userExists(username):
 #adds a new user. adds their login info to users table, and makes a new unique table for their tasks
 def addUser(username, password):
     createTable(username, [['task', 'TEXT PRIMARY KEY'], ['startTime', 'TIMESTAMP'], ['endTime', 'TIMESTAMP'], ['expectedTime', 'INTEGER'], ['actualTime', 'REAL']])
+    createTable(username+"Shopping", [['item', 'TEXT']])
     
     db = openDb()
     cursor = getCursor(db)
@@ -148,3 +149,35 @@ def completeTask(username, task):
 
     saveDb(db)
     closeDb(db)
+
+# adds an item to be shopped by a user to their own shopping table
+def addShop(username, item):
+    db = openDb()
+    cursor = getCursor(db)
+
+    # INSERT INTO margaretShopping VALUES 'cat food'
+    cursor.execute('INSERT INTO ' + username + 'Shopping VALUES (?)', (item,))
+
+    saveDb(db)
+    closeDb(db)
+
+def completeShop(username, item):
+    db = openDb()
+    cursor = getCursor(db)
+
+    # DELETE FROM margaretShopping WHERE item = 'cat food'
+    cursor.execute('DELETE FROM ' + username + "Shopping WHERE item = ?", item)
+
+    saveDb(db)
+    closeDb(db)
+
+def getItems(username):
+    db = openDb()
+    cursor = getCursor(db)
+
+    # SELECT * FROM margaretShopping
+    # gets everything from margaret's shopping list
+    items = cursor.execute("SELECT * FROM " + username + "Shopping").fetchall()
+    print items
+    print "those were the items"
+    return items

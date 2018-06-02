@@ -17,5 +17,12 @@ mdA -- 2018-05-30 17:15:50
 added task handling db functions, implemented time difference calculations, fixed some bugs
 
 yiduoK -- 2018-06-01 13:32:21
-shopping stuff in /task route; just a dummy item now need to adapt it to any item user inputs
+shopping stuff in /shopping route; just a dummy item now need to adapt it to any item user inputs
 
+yiduoK -- 2018-06-02 00:48:24
+-shopping stuff in /shopping route
+-looping back to the /shopping page, no more "successful submission" page because that's distracting
+-items are successfully added and retrieved from the database
+-when a new user is made, their shopping table is also made
+-deleted all users and associated tables because of the associated shopping tables that had to be made
+-still need the search button next to each shopping item to show top 5 ebay results

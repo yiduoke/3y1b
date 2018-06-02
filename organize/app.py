@@ -81,7 +81,7 @@ def submitted():
     if isLoggedIn():
         user=session["username"]
         task=request.form["task"]
-        #users.add_task(user, task) #calls db method 
+        #db.addTask(user, task) #calls db method 
         return render_template("submitted.html", username=user, loggedin=isLoggedIn())
     else:
         return redirect(url_for("login_page"))
@@ -93,27 +93,59 @@ def logout():
         session.pop('username')
         
     return redirect(url_for('home'))
-  
+
 @app.route('/shopping')
 def shopping():
-    raw = urllib2.urlopen("https://svcs.ebay.com/services/search/FindingService/v1?OPERATION-NAME=findItemsByKeywords&SERVICE-VERSION=1.0.0&SECURITY-APPNAME=MdAbedin-test-PRD-a5d705b3d-43eeb6a2&RESPONSE-DATA-FORMAT=JSON&REST-PAYLOAD&keywords=cat%20food")
-    string = raw.read()
-    d = json.loads(string)
+    if isLoggedIn():
+        user=session["username"]
+        item_list = db.getItems(session["username"])
+        item_list_clean = []
+        for item in item_list:
+            item_list_clean.append(item[0])
+        print item_list_clean
+        return render_template("shopping.html", items = item_list_clean)
+    else:
+        return render_template("login.html")
 
-    title_list = []
-    picture_list = []
-    price_list = []
-    url_list = []
+#User submits task/reminder
+@app.route('/shopping', methods=["POST"])
+def submitted_shopping():
+    if isLoggedIn():
+        user=session["username"]
+        item=request.form['item']
+        print item
+        print "that was the item added"
+        db.addShop(user, item) #calls db method to add shopping item
 
-    for i in range(5):
-        title_list.append(d["findItemsByKeywordsResponse"][0]["searchResult"][0]["item"][i]["title"][0])
-        picture_list.append(d["findItemsByKeywordsResponse"][0]["searchResult"][0]["item"][i]["galleryURL"][0])
-        price_list.append(d["findItemsByKeywordsResponse"][0]["searchResult"][0]["item"][i]["sellingStatus"][0]["convertedCurrentPrice"][0]["__value__"])
-        url_list.append(d["findItemsByKeywordsResponse"][0]["searchResult"][0]["item"][i]["viewItemURL"][0])
-        
-    return render_template("ebay.html", title_listy = title_list, picture_listy = picture_list, price_listy = price_list, url_listy = url_list)
-
+        item_list = db.getItems(session["username"])
+        item_list_clean = []
+        for item in item_list:
+            item_list_clean.append(item[0])
+        # return render_template("submitted.html", username=user, loggedin=isLoggedIn())
+        return render_template("shopping.html", items = item_list_clean)
+    else:
+        return redirect(url_for("login_page"))
 
 if __name__ == "__main__":
     app.debug = True
     app.run()
+
+# PLEASE DON'T DELETE THESE COMMENT LINES!!! I HAVE TO USE THEM LATER!!! --Yiduo
+# @app.route('/shopping')
+# def shopping():
+#     raw = urllib2.urlopen("https://svcs.ebay.com/services/search/FindingService/v1?OPERATION-NAME=findItemsByKeywords&SERVICE-VERSION=1.0.0&SECURITY-APPNAME=MdAbedin-test-PRD-a5d705b3d-43eeb6a2&RESPONSE-DATA-FORMAT=JSON&REST-PAYLOAD&keywords=cat%20food")
+#     string = raw.read()
+#     d = json.loads(string)
+
+#     title_list = []
+#     picture_list = []
+#     price_list = []
+#     url_list = []
+
+#     for i in range(5):
+#         title_list.append(d["findItemsByKeywordsResponse"][0]["searchResult"][0]["item"][i]["title"][0])
+#         picture_list.append(d["findItemsByKeywordsResponse"][0]["searchResult"][0]["item"][i]["galleryURL"][0])
+#         price_list.append(d["findItemsByKeywordsResponse"][0]["searchResult"][0]["item"][i]["sellingStatus"][0]["convertedCurrentPrice"][0]["__value__"])
+#         url_list.append(d["findItemsByKeywordsResponse"][0]["searchResult"][0]["item"][i]["viewItemURL"][0])
+
+#     return render_template("shopping.html", title_listy = title_list, picture_listy = picture_list, price_listy = price_list, url_listy = url_list)
