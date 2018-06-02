@@ -26,3 +26,7 @@ yiduoK -- 2018-06-02 00:48:24
 -when a new user is made, their shopping table is also made
 -deleted all users and associated tables because of the associated shopping tables that had to be made
 -still need the search button next to each shopping item to show top 5 ebay results
+
+yiduoK -- 2018-06-02 16:37:40
+-ebay stuff implemented!
+-when you click on an item you gives you top 5 ebay results under it and they are hyperlinked

@@ -126,6 +126,33 @@ def submitted_shopping():
     else:
         return redirect(url_for("login_page"))
 
+# this is jQuery sending a shopping item to Flask and Flask sending back ebay results for that item
+@app.route('/ebay/<item>', methods = ['POST'])
+def ebay(item):
+    item = item.strip()
+    item = item.replace(" ", "%20")
+    api_url = "https://svcs.ebay.com/services/search/FindingService/v1?OPERATION-NAME=findItemsByKeywords&SERVICE-VERSION=1.0.0&SECURITY-APPNAME=MdAbedin-test-PRD-a5d705b3d-43eeb6a2&RESPONSE-DATA-FORMAT=JSON&REST-PAYLOAD&keywords="+item
+    print "@@@"+api_url+"@@@"
+    raw = urllib2.urlopen(api_url)
+    string = raw.read()
+    d = json.loads(string)
+
+    title_list = []
+    picture_list = []
+    price_list = []
+    url_list = []
+
+    for i in range(5):
+        title_list.append(d["findItemsByKeywordsResponse"][0]["searchResult"][0]["item"][i]["title"][0])
+        picture_list.append(d["findItemsByKeywordsResponse"][0]["searchResult"][0]["item"][i]["galleryURL"][0])
+        price_list.append(d["findItemsByKeywordsResponse"][0]["searchResult"][0]["item"][i]["sellingStatus"][0]["convertedCurrentPrice"][0]["__value__"])
+        url_list.append(d["findItemsByKeywordsResponse"][0]["searchResult"][0]["item"][i]["viewItemURL"][0])
+    
+    response = json.dumps({"titles": title_list, "pictures": picture_list, "prices": price_list, "urls": url_list})
+    print response
+    print "those were the top 5 ebay results for " + item
+    return response
+
 if __name__ == "__main__":
     app.debug = True
     app.run()

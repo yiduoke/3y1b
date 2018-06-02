@@ -112,7 +112,7 @@ def userExists(username):
 #adds a new user. adds their login info to users table, and makes a new unique table for their tasks
 def addUser(username, password):
     createTable(username, [['task', 'TEXT PRIMARY KEY'], ['startTime', 'TIMESTAMP'], ['endTime', 'TIMESTAMP'], ['expectedTime', 'INTEGER'], ['actualTime', 'REAL']])
-    createTable(username+"Shopping", [['item', 'TEXT']])
+    createTable(username+"Shopping", [['item', 'TEXT PRIMARY KEY']])
     
     db = openDb()
     cursor = getCursor(db)
@@ -152,11 +152,17 @@ def completeTask(username, task):
 
 # adds an item to be shopped by a user to their own shopping table
 def addShop(username, item):
+    item = item.strip()
     db = openDb()
     cursor = getCursor(db)
 
-    # INSERT INTO margaretShopping VALUES 'cat food'
-    cursor.execute('INSERT INTO ' + username + 'Shopping VALUES (?)', (item,))
+    cmdString = 'SELECT item FROM ' + username + 'Shopping WHERE item = "%s";' % (item,)
+    items = cursor.execute(cmdString).fetchone()
+
+    #only add the shopping item if it doesn't already exist
+    if (items == None):
+        # INSERT INTO margaretShopping VALUES 'cat food'
+        cursor.execute('INSERT INTO ' + username + 'Shopping VALUES (?)', (item,))
 
     saveDb(db)
     closeDb(db)
