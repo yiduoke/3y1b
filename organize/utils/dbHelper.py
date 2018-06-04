@@ -1,44 +1,54 @@
 '''
 todo:
 - make stuff not crash when duplicate tasks are entered
-- add timeDifference to tasks table
 '''
 
 import sqlite3
 from datetime import datetime
+from calendar import monthrange
+import os
 
 '''
 IMPORTANT NOTES:
 -    if you make your own db modify functions, make sure to enter strings as '"text"' instead of just 'text'
--    the functions I've written work with normal strings as arguments though, so don't pass '"text"' into them
+-    the functions i've written work with normal strings as arguments though, so don't pass '"text"' into them
 -    always save and close db at the end if you add any new db modification functions
 '''
 
-dbPath = 'data/db.db'
+#path to db file from this file. should switch to os.path.dirname on droplet
+dbPath = '../data/db.db'
 
+#in case we use more than one db, not likely
 def switchDb(path):
     global dbPath
     dbPath = path
 
+#opens the db
+#using "detect_types = sqlite3.PARSE_DECLTYPES|sqlite3.PARSE_COLNAMES" makes it so we can enter datetime objects and get back datetime objects instead of strings
 def openDb():
     db = sqlite3.connect(dbPath, detect_types = sqlite3.PARSE_DECLTYPES|sqlite3.PARSE_COLNAMES)
     return db
 
+#gets the cursor from a db
 def getCursor(db):
     c = db.cursor()
     return c
 
+#saves db
 def saveDb(db):
     db.commit()
 
+#closes db. db needs to be opened and closed in every function
 def closeDb(db):
     db.close()
 
-#run once, creates the table
+#run once, creates a table
+#columns argument should be a list of sublists where first element is column name, 2nd element is sqlite type in string form
 #example: createTable('users', [ ['username', 'TEXT PRIMARY KEY'], ['password', 'TEXT'] ])
 def createTable(tableName, columns):
     db = openDb()
     cursor = getCursor(db)
+    #using IF NOT EXISTS to avoid errors
     cmdString = 'CREATE TABLE IF NOT EXISTS ' + str(tableName) + '('
     
     for column in columns:
@@ -48,12 +58,13 @@ def createTable(tableName, columns):
     cmdString = cmdString[:-2]
     cmdString += ');'
     
-    #print cmdString
     cursor.execute(cmdString)
     saveDb(db)
     closeDb(db)
 
 #inserts row data into a table
+#columns argument is a list of the columns to be entered
+#values argument is a list of the corresponding values in the same order
 #example: insertRow('users', ['username', 'password'], ['"md"', '"pw"'])
 def insertRow(tableName, columns, values):
     db = openDb()
@@ -76,7 +87,6 @@ def insertRow(tableName, columns, values):
     cmdString = cmdString[:-2]
     cmdString += ');'
     
-    #print cmdString
     cursor.execute(cmdString)
     saveDb(db)
     closeDb(db)
@@ -89,21 +99,18 @@ def validateLogin(username, password):
     passwords = cursor.execute(cmdString).fetchone()
     
     closeDb(db)
-    #print passwords
     
     if passwords == None:
         return False
         
     return passwords[0] == password
     
-
 #returns True if a username is registered, False otherwise
 def userExists(username):
     db = openDb()
     cursor = getCursor(db)
     cmdString = 'SELECT username FROM users WHERE username = "%s";' % (username,)
     usernames = cursor.execute(cmdString).fetchone()
-    #print usernames
     
     closeDb(db)
     
@@ -111,8 +118,7 @@ def userExists(username):
 
 #adds a new user. adds their login info to users table, and makes a new unique table for their tasks
 def addUser(username, password):
-    createTable(username, [['task', 'TEXT PRIMARY KEY'], ['startTime', 'TIMESTAMP'], ['endTime', 'TIMESTAMP'], ['expectedTime', 'INTEGER'], ['actualTime', 'REAL']])
-    createTable(username+"Shopping", [['item', 'TEXT PRIMARY KEY']])
+    createTable(username, [['task', 'TEXT PRIMARY KEY'], ['taskType', 'TEXT'], ['startTime', 'TIMESTAMP'], ['endTime', 'TIMESTAMP'], ['expectedTime', 'INTEGER'], ['actualTime', 'REAL'], ['timeDifference', 'REAL']])
     
     db = openDb()
     cursor = getCursor(db)
@@ -126,16 +132,21 @@ def addUser(username, password):
 def createUsersTable():
     createTable('users', [['username', 'TEXT PRIMARY KEY'], ['password', 'TEXT']])
     
-#adds a task to a specific user's task table. the endTime and actualTime columns are set to -1 because they're determined on task completion, not creation
-def addTask(username, task, startTime, expectedTime):
+#adds a task to a specific user's task table. the endTime, actualTime, and timeDifference columns are set to a dummy time because they're determined on task completion, not creation
+#there are two taskTypes: 'TIMED' and 'NONTIMED'
+#all time deltas are in minutes
+def addTask(username, task, taskType, startTime, expectedTime):
     db = openDb()
     cursor = getCursor(db)
+    dummyTime = datetime(1, 1, 1, 0, 0)
     
-    cursor.execute('INSERT INTO ' + username + ' VALUES (?, ?, ?, ?, ?)', (task, startTime, '-1', expectedTime, '-1'))
+    cursor.execute('INSERT INTO ' + username + ' VALUES (?, ?, ?, ?, ?, ?, ?)', (task, taskType, startTime, dummyTime, expectedTime, -1, -1))
 
     saveDb(db)
     closeDb(db)
 
+#completes a given task for a user, uses datetime.now() as the recorded completion time
+#if the task was a nontimed task, it'll still add the completion time info, but won't be used later
 def completeTask(username, task):
     db = openDb()
     cursor = getCursor(db)
@@ -144,11 +155,42 @@ def completeTask(username, task):
     cursor.execute('SELECT startTime FROM %s WHERE task = ?' % (username), (task,))
     actualTime = currentTime - cursor.fetchone()[0]
     actualTime = actualTime.seconds/60.0
+    cursor.execute('SELECT expectedTime FROM %s WHERE task = ?' % (username), (task,))
+    timeDifference = cursor.fetchone()[0] - actualTime
     
-    cursor.execute('UPDATE ' + username + ' SET endTime = ?, actualTime = ? WHERE task = ?', (datetime.now(), actualTime, task))
+    cursor.execute('UPDATE ' + username + ' SET endTime = ?, actualTime = ?, timeDifference = ? WHERE task = ?', (datetime.now(), actualTime, timeDifference, task))
 
     saveDb(db)
     closeDb(db)
+
+#returns a dict where keys are the day # for each day in a month, and values are # of completed tasks that day for a given user. completed tasks include timed and nontimed
+def getCompletedMonth(username, month, year):
+    db = openDb()
+    cursor = getCursor(db)
+    
+    cursor.execute('SELECT * FROM %s WHERE actualTime != -1' % (username))
+    
+    tasks = cursor.fetchall()
+    
+    completed = dict()
+    
+    numDays = monthrange(year, month)[1]
+    
+    for i in range(1, numDays+1):
+        completed[i] = getNumCompleted(i, tasks)
+
+    return completed
+
+#helper fxn for getCompletedMonth(), returns # of tasks completed on a given day for a given list of tasks
+def getNumCompleted(day, tasks):
+    count = 0
+    
+    for task in tasks:
+        if task[3].day == day:
+            count += 1
+
+    return count
+
 
 # adds an item to be shopped by a user to their own shopping table
 def addShop(username, item):

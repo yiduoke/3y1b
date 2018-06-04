@@ -4,7 +4,7 @@ from datetime import date,datetime
 
 #db.createUsersTable()
 #db.addUser('md', 'md')
-#db.addTask('md', 'finish softdev', datetime.now(), 500)
-db.completeTask('md', 'finish softdev')
-
+#db.addTask('md', 'test', 'TIMED', datetime.now(), 5)
+#db.completeTask('md', 'test')
+#print db.getCompletedMonth('md', 6, 2018)
 print 'done'

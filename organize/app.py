@@ -156,23 +156,3 @@ def ebay(item):
 if __name__ == "__main__":
     app.debug = True
     app.run()
-
-# PLEASE DON'T DELETE THESE COMMENT LINES!!! I HAVE TO USE THEM LATER!!! --Yiduo
-# @app.route('/shopping')
-# def shopping():
-#     raw = urllib2.urlopen("https://svcs.ebay.com/services/search/FindingService/v1?OPERATION-NAME=findItemsByKeywords&SERVICE-VERSION=1.0.0&SECURITY-APPNAME=MdAbedin-test-PRD-a5d705b3d-43eeb6a2&RESPONSE-DATA-FORMAT=JSON&REST-PAYLOAD&keywords=cat%20food")
-#     string = raw.read()
-#     d = json.loads(string)
-
-#     title_list = []
-#     picture_list = []
-#     price_list = []
-#     url_list = []
-
-#     for i in range(5):
-#         title_list.append(d["findItemsByKeywordsResponse"][0]["searchResult"][0]["item"][i]["title"][0])
-#         picture_list.append(d["findItemsByKeywordsResponse"][0]["searchResult"][0]["item"][i]["galleryURL"][0])
-#         price_list.append(d["findItemsByKeywordsResponse"][0]["searchResult"][0]["item"][i]["sellingStatus"][0]["convertedCurrentPrice"][0]["__value__"])
-#         url_list.append(d["findItemsByKeywordsResponse"][0]["searchResult"][0]["item"][i]["viewItemURL"][0])
-
-#     return render_template("shopping.html", title_listy = title_list, picture_listy = picture_list, price_listy = price_list, url_listy = url_list)
