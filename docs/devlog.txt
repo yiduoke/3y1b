@@ -19,3 +19,6 @@ added task handling db functions, implemented time difference calculations, fixe
 mdA -- 2018-06-01 14:01:35
 added fxn to get num of completed tasks every day of a given month, changed endTime's dummy val in db to a datetime instead of -1
 
+mdA -- 2018-06-04 11:00:39
+restructured db to store nontimed tasks, added fxns for getting data for visualizations
+
