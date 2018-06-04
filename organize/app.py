@@ -103,7 +103,7 @@ def shopping():
         for item in item_list:
             item_list_clean.append(item[0])
         print item_list_clean
-        return render_template("shopping.html", items = item_list_clean)
+        return render_template("shopping.html", items = item_list_clean, loggedin=isLoggedIn())
     else:
         return render_template("login.html")
 
@@ -122,7 +122,7 @@ def submitted_shopping():
         for item in item_list:
             item_list_clean.append(item[0])
         # return render_template("submitted.html", username=user, loggedin=isLoggedIn())
-        return render_template("shopping.html", items = item_list_clean)
+        return render_template("shopping.html", items = item_list_clean, loggedin=isLoggedIn())
     else:
         return redirect(url_for("login_page"))
 
