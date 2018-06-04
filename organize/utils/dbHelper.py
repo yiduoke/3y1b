@@ -16,7 +16,7 @@ IMPORTANT NOTES:
 '''
 
 #path to db file from this file. should switch to os.path.dirname on droplet
-dbPath = '../data/db.db'
+dbPath = 'data/db.db'
 
 #in case we use more than one db, not likely
 def switchDb(path):
@@ -119,7 +119,7 @@ def userExists(username):
 #adds a new user. adds their login info to users table, and makes a new unique table for their tasks
 def addUser(username, password):
     createTable(username, [['task', 'TEXT PRIMARY KEY'], ['taskType', 'TEXT'], ['startTime', 'TIMESTAMP'], ['endTime', 'TIMESTAMP'], ['expectedTime', 'INTEGER'], ['actualTime', 'REAL'], ['timeDifference', 'REAL']])
-    
+    createTable(username+"Shopping", [['item', 'TEXT PRIMARY KEY']])
     db = openDb()
     cursor = getCursor(db)
     insertUser = "INSERT INTO users (username, password) VALUES ('%s', '%s');" % (username, password)
