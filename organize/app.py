@@ -90,11 +90,28 @@ def submitted():
 def leaderboard():
     if isLoggedIn():
         user=session["username"]
-        return render_template("leaderboard.html", username=user, loggedin=isLoggedIn())
+        #taskDict=db.getCompletedMonth(user,
+        dic={1:2,2:5,3:7}
+        data=convertToList(dic,"Jan",18)
+        return render_template("leaderboard.html", tasks=data,username=user, loggedin=isLoggedIn())
     else:
         return redirect(url_for("login_page"))
+
+def convertToList(dictionary,month,year):
+    toRet=[]
+    for i in range(len(dictionary)):
+        toRet.append({})
+    #month should be Jan, Feb, Mar, Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec
+    #year should be 2 digits
+    text="-"+month+"-"+str(year)
+    for j in range(1,len(dictionary)+1):
+        indivDict=toRet[j-1]
+        indivDict["date"]=str(j)+text
+        indivDict["tasks"]=int(dictionary[j])
+    return toRet
+        
     
- #Log out
+#Log out
 @app.route('/account/logout')
 def logout():
     if isLoggedIn():

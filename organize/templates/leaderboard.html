@@ -88,12 +88,13 @@ var svg = d3.select("body").append("svg")
     .attr("width", width + margin.left + margin.right)
     .attr("height", height + margin.top + margin.bottom)
   .append("g")
-    .attr("transform",
-          "translate(" + margin.left + "," + margin.top + ")");
+    .attr("transform","translate(" + margin.left + "," + margin.top + ")");
 
+
+{% set data = tasks|safe %}
+
+<!--data=[{date:"12-Apr-18",tasks:5},{date:"13-Apr-18",tasks:6},{date:"14-Apr-18",tasks:5},{date:"15-Apr-18",tasks:1},{date:"16-Apr-18",tasks:5},{date:"17-Apr-18",tasks:6},{date:"18-Apr-18",tasks:15},{date:"19-Apr-18",tasks:6},{date:"20-Apr-18",tasks:5},{date:"21-Apr-18",tasks:6},{date:"22-Apr-18",tasks:5},{date:"23-Apr-18",tasks:6},{date:"24-Apr-18",tasks:5},{date:"25-Apr-18",tasks:6},{date:"26-Apr-18",tasks:5},{date:"27-Apr-18",tasks:6}]-->
 // Get the data
-d3.csv("/organize/organize/data/data.csv", function(error, data) {
-  if (error) throw error;
 
   // format the data
   data.forEach(function(d) {
@@ -118,9 +119,10 @@ d3.csv("/organize/organize/data/data.csv", function(error, data) {
 
   // Add the Y Axis
   svg.append("g")
-      .call(d3.axisLeft(y));
+.call(d3.axisLeft(y));
 
-});
+
 
 </script>
 </body>
+</html>
