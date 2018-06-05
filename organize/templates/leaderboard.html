@@ -14,7 +14,7 @@
       
     </style>
     </head>
-  <body>
+  <body
      {% block background %}
 	style="height: 100%; background-image:
 	       url({{url_for('static', filename='covered.jpg')}})"
@@ -92,7 +92,7 @@ var svg = d3.select("body").append("svg")
           "translate(" + margin.left + "," + margin.top + ")");
 
 // Get the data
-d3.csv("static/data.csv", function(error, data) {
+d3.csv("/organize/organize/data/data.csv", function(error, data) {
   if (error) throw error;
 
   // format the data

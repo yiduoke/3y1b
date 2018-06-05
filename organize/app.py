@@ -85,6 +85,14 @@ def submitted():
         return render_template("submitted.html", username=user, loggedin=isLoggedIn())
     else:
         return redirect(url_for("login_page"))
+
+@app.route('/leaderboard')
+def leaderboard():
+    if isLoggedIn():
+        user=session["username"]
+        return render_template("leaderboard.html", username=user, loggedin=isLoggedIn())
+    else:
+        return redirect(url_for("login_page"))
     
  #Log out
 @app.route('/account/logout')
