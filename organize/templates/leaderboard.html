@@ -4,6 +4,10 @@
     <link rel="stylesheet" href="static/custom.css" type="text/css">
     <title>Leaderboard</title>
     <script src="https://d3js.org/d3.v4.min.js"></script>
+    <script
+       src="https://code.jquery.com/jquery-3.3.1.min.js"
+       integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+       crossorigin="anonymous"></script>
     <style> /* set the CSS */
 
 .line {
@@ -90,10 +94,16 @@ var svg = d3.select("body").append("svg")
   .append("g")
     .attr("transform","translate(" + margin.left + "," + margin.top + ")");
 
+//{% set data = tasks|safe %}
 
-{% set data = tasks|safe %}
+//data=[{date:"12-Apr-18",tasks:5},{date:"13-Apr-18",tasks:6},{date:"14-Apr-18",tasks:5},{date:"15-Apr-18",tasks:1},{date:"16-Apr-18",tasks:5},{date:"17-Apr-18",tasks:6},{date:"18-Apr-18",tasks:15},{date:"19-Apr-18",tasks:6},{date:"20-Apr-18",tasks:5},{date:"21-Apr-18",tasks:6},{date:"22-Apr-18",tasks:5},{date:"23-Apr-18",tasks:6},{date:"24-Apr-18",tasks:5},{date:"25-Apr-18",tasks:6},{date:"26-Apr-18",tasks:5},{date:"27-Apr-18",tasks:6}]
 
-<!--data=[{date:"12-Apr-18",tasks:5},{date:"13-Apr-18",tasks:6},{date:"14-Apr-18",tasks:5},{date:"15-Apr-18",tasks:1},{date:"16-Apr-18",tasks:5},{date:"17-Apr-18",tasks:6},{date:"18-Apr-18",tasks:15},{date:"19-Apr-18",tasks:6},{date:"20-Apr-18",tasks:5},{date:"21-Apr-18",tasks:6},{date:"22-Apr-18",tasks:5},{date:"23-Apr-18",tasks:6},{date:"24-Apr-18",tasks:5},{date:"25-Apr-18",tasks:6},{date:"26-Apr-18",tasks:5},{date:"27-Apr-18",tasks:6}]-->
+var data = [];
+
+$.get("/getpythondata", function(d) {
+data = $.parseJSON(d);
+console.log(data);
+
 // Get the data
 
   // format the data
@@ -120,8 +130,7 @@ var svg = d3.select("body").append("svg")
   // Add the Y Axis
   svg.append("g")
 .call(d3.axisLeft(y));
-
-
+})
 
 </script>
 </body>

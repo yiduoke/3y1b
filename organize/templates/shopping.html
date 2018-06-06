@@ -155,37 +155,12 @@ Home
       items will go here
       <br>
 
-	  {% for item in items%}
+	  {% for item in items %}
 		<div class = "item">
 			{{ item }}
 		</div>
 		<br>
 	  {% endfor %}
-
-	  {#
-
-      PLEASE DON'T DELETE THESE COMMENT LINES I NEED THEM LATER!!
-      {% for entry in range(5) %}
-
-        {% set title = title_listy[loop.index0] %}
-        {% set picture = picture_listy[loop.index0] %}
-        {% set price = price_listy[loop.index0] %}
-        {% set url = url_listy[loop.index0] %}
-        
-        {{ title }}
-        <a href="{{ url }}"><img src="{{ picture }}" style="width:100px;height:100px;"></a>
-        {{ price }}
-
-        <div>
-          {{ title }}
-          <img src="{{ picture }}" style="width:100px;height:100px;">
-          {{ price }}
-        </div>
-
-        <br><br>
-	  {% endfor %}
-	  
-	  #}
     </p>
 	</div>
 </div>

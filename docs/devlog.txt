@@ -55,3 +55,6 @@ fixed devlog location, fixed a button link
 
 mdA -- 2018-05-30 17:15:50
 added task handling db functions, implemented time difference calculations, fixed some bugs
+
+yiduoK -- 2018-05-30 17:01:42
+shopping items can expand and collapse (top 5 ebay results)
