@@ -58,3 +58,8 @@ added task handling db functions, implemented time difference calculations, fixe
 
 yiduoK -- 2018-05-30 17:01:42
 shopping items can expand and collapse (top 5 ebay results)
+
+yiduoK -- 2018-06-07 15:06:15
+-can delete/complete shopping items now! 
+-works 100% of the time! 
+-even when expanded with ebay results!

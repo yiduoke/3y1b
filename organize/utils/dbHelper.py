@@ -214,8 +214,11 @@ def completeShop(username, item):
     cursor = getCursor(db)
 
     # DELETE FROM margaretShopping WHERE item = 'cat food'
-    cursor.execute('DELETE FROM ' + username + "Shopping WHERE item = ?", item)
-
+    cursor.execute('DELETE FROM ' + username + "Shopping WHERE item = (?)", (item,))
+    items = cursor.execute("SELECT * FROM " + username + "Shopping").fetchall()
+    print items
+    print "those were the items after completing an item..."
+    
     saveDb(db)
     closeDb(db)
 

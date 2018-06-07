@@ -1,8 +1,8 @@
 var item = document.getElementsByClassName("item");
+var shopped = document.getElementsByClassName("shopped");
 
 function ebay(e){
 	if (this.childNodes.length == 1){
-		// console.log(this.childNodes);
 		var obj;
 		$.ajax({
 			type: 'POST',
@@ -10,7 +10,6 @@ function ebay(e){
 			async: false
 		}).done(function(response){
 			obj = JSON.parse(response);
-			// console.log(obj);
 		});
 
 		// adding the ebay results to an item entry
@@ -44,11 +43,27 @@ function ebay(e){
 		}
 	}
 	else{
-		console.log(this.childNodes);
 		this.innerHTML = this.childNodes[0].textContent;
 	}
 }
 
+function completed(e){
+	var obj;
+	var shopped_thing = this.previousElementSibling.innerHTML;
+	console.log(shopped_thing);
+	$.ajax({
+		type: 'POST',
+		url: '/complete_shopping/' + shopped_thing,
+	});
+	
+	this.previousElementSibling.innerHTML = '';
+	this.remove();
+}
+
 for (var i = 0; i < item.length; i++){
     item[i].addEventListener("click", ebay);
+}
+
+for (var i = 0; i < shopped.length; i++){
+    shopped[i].addEventListener("click", completed);
 }

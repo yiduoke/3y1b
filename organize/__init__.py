@@ -136,7 +136,6 @@ def shopping():
         item_list_clean = []
         for item in item_list:
             item_list_clean.append(item[0])
-        print item_list_clean
         return render_template("shopping.html", items = item_list_clean, loggedin=isLoggedIn())
     else:
         return render_template("login.html")
@@ -147,8 +146,6 @@ def submitted_shopping():
     if isLoggedIn():
         user=session["username"]
         item=request.form['item']
-        print item
-        print "that was the item added"
         db.addShop(user, item) #calls db method to add shopping item
 
         item_list = db.getItems(session["username"])
@@ -166,7 +163,6 @@ def ebay(item):
     item = item.strip()
     item = item.replace(" ", "%20")
     api_url = "https://svcs.ebay.com/services/search/FindingService/v1?OPERATION-NAME=findItemsByKeywords&SERVICE-VERSION=1.0.0&SECURITY-APPNAME=MdAbedin-test-PRD-a5d705b3d-43eeb6a2&RESPONSE-DATA-FORMAT=JSON&REST-PAYLOAD&keywords="+item
-    print "@@@"+api_url+"@@@"
     raw = urllib2.urlopen(api_url)
     string = raw.read()
     d = json.loads(string)
@@ -183,9 +179,14 @@ def ebay(item):
         url_list.append(d["findItemsByKeywordsResponse"][0]["searchResult"][0]["item"][i]["viewItemURL"][0])
     
     response = json.dumps({"titles": title_list, "pictures": picture_list, "prices": price_list, "urls": url_list})
-    print response
-    print "those were the top 5 ebay results for " + item
     return response
+
+@app.route('/complete_shopping/<item>', methods = ['POST'])
+def shopped(item):
+    item = item.strip()
+    db.completeShop(session["username"], item)
+    print item
+    print "that was the item supposed to be taken off"
 
 if __name__ == "__main__":
     app.debug = True

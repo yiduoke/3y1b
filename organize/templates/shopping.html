@@ -94,42 +94,6 @@ Home
 {% endblock %}
 {% block body %}
 
-<!--
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-  <a class="navbar-brand" href="#">Navbar</a>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
-
-  <div class="collapse navbar-collapse" id="navbarSupportedContent">
-    <ul class="navbar-nav mr-auto">
-      <li class="nav-item active">
-        <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="#">Shop</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="#">Stats</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="#">Mini Calendar</a>
-      </li>
-	  </ul>
-  </div>
-</nav>
-
--->
-
-
-<!--
-<div class="container">
-	<button type="button" class="btn btn-default">Shop</button>
-	<button type="button" class="btn btn-default">Stats</button>
-	<button type="button" class="btn btn-default">Mini Calendar</button>
-</div>
-	  -->
-
 <div class="container" style="padding-bottom: 20px">
 <h3>Add Shopping Items</h3>
 <br>
@@ -156,8 +120,11 @@ Home
       <br>
 
 	  {% for item in items %}
-		<div class = "item">
-			{{ item }}
+	  	<div>
+			<div class = "item">
+				{{ item }}
+			</div>
+			<button type="button" class="shopped">Check Off</button>
 		</div>
 		<br>
 	  {% endfor %}
