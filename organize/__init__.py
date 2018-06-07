@@ -92,9 +92,6 @@ def submitTask():
 
 @app.route('/getpythondata')
 def get_python_data():
-    #dic={1:2,2:5,3:7}
-    #return json.dumps(convertToList(dic,"Jan",18))
-    #data = db.getCompletedMonth('md', 6, 2018)
     data=[{'date':"12-Apr-18", 'tasks':5},{'date':"13-Apr-18",'tasks':6},{'date':"14-Apr-18",'tasks':5},{'date':"15-Apr-18",'tasks':1},{'date':"16-Apr-18",'tasks':5},{'date':"17-Apr-18",'tasks':6},{'date':"18-Apr-18",'tasks':15},{'date':"19-Apr-18",'tasks':6},{'date':"20-Apr-18",'tasks':5},{'date':"21-Apr-18",'tasks':6},{'date':"22-Apr-18",'tasks':5},{'date':"23-Apr-18",'tasks':6},{'date':"24-Apr-18",'tasks':5},{'date':"25-Apr-18",'tasks':6},{'date':"26-Apr-18",'tasks':5},{'date':"27-Apr-18",'tasks':6}]
     
     return json.dumps(data)
@@ -122,7 +119,6 @@ def convertToList(dictionary,month,year):
         indivDict["date"]=str(j)+text
         indivDict["tasks"]=int(dictionary[j])
     return toRet
-        
     
 #Log out
 @app.route('/account/logout')
@@ -140,7 +136,6 @@ def shopping():
         item_list_clean = []
         for item in item_list:
             item_list_clean.append(item[0])
-        print item_list_clean
         return render_template("shopping.html", items = item_list_clean, loggedin=isLoggedIn())
     else:
         return render_template("login.html")
@@ -151,8 +146,6 @@ def submitted_shopping():
     if isLoggedIn():
         user=session["username"]
         item=request.form['item']
-        print item
-        print "that was the item added"
         db.addShop(user, item) #calls db method to add shopping item
 
         item_list = db.getItems(session["username"])
@@ -170,7 +163,6 @@ def ebay(item):
     item = item.strip()
     item = item.replace(" ", "%20")
     api_url = "https://svcs.ebay.com/services/search/FindingService/v1?OPERATION-NAME=findItemsByKeywords&SERVICE-VERSION=1.0.0&SECURITY-APPNAME=MdAbedin-test-PRD-a5d705b3d-43eeb6a2&RESPONSE-DATA-FORMAT=JSON&REST-PAYLOAD&keywords="+item
-    print "@@@"+api_url+"@@@"
     raw = urllib2.urlopen(api_url)
     string = raw.read()
     d = json.loads(string)
@@ -187,9 +179,14 @@ def ebay(item):
         url_list.append(d["findItemsByKeywordsResponse"][0]["searchResult"][0]["item"][i]["viewItemURL"][0])
     
     response = json.dumps({"titles": title_list, "pictures": picture_list, "prices": price_list, "urls": url_list})
-    print response
-    print "those were the top 5 ebay results for " + item
     return response
+
+@app.route('/complete_shopping/<item>', methods = ['POST'])
+def shopped(item):
+    item = item.strip()
+    db.completeShop(session["username"], item)
+    print item
+    print "that was the item supposed to be taken off"
 
 if __name__ == "__main__":
     app.debug = True

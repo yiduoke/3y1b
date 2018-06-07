@@ -233,6 +233,40 @@ def getItems(username):
     db = openDb()
     cursor = getCursor(db)
 
+# adds an item to be shopped by a user to their own shopping table
+def addShop(username, item):
+    item = item.strip()
+    db = openDb()
+    cursor = getCursor(db)
+
+    cmdString = 'SELECT item FROM ' + username + 'Shopping WHERE item = "%s";' % (item,)
+    items = cursor.execute(cmdString).fetchone()
+
+    #only add the shopping item if it doesn't already exist
+    if (items == None):
+        # INSERT INTO margaretShopping VALUES 'cat food'
+        cursor.execute('INSERT INTO ' + username + 'Shopping VALUES (?)', (item,))
+
+    saveDb(db)
+    closeDb(db)
+
+def completeShop(username, item):
+    db = openDb()
+    cursor = getCursor(db)
+
+    # DELETE FROM margaretShopping WHERE item = 'cat food'
+    cursor.execute('DELETE FROM ' + username + "Shopping WHERE item = (?)", (item,))
+    items = cursor.execute("SELECT * FROM " + username + "Shopping").fetchall()
+    print items
+    print "those were the items after completing an item..."
+    
+    saveDb(db)
+    closeDb(db)
+
+def getItems(username):
+    db = openDb()
+    cursor = getCursor(db)
+
     # SELECT * FROM margaretShopping
     # gets everything from margaret's shopping list
     items = cursor.execute("SELECT * FROM " + username + "Shopping").fetchall()

@@ -13,18 +13,17 @@ cleaned and restructured code, wrote main dbHelper fxns, got logins and creates 
 mdA -- 2018-05-22 22:19:16
 fixed devlog location, fixed a button link
 
+yiduoK -- 2018-05-30 17:01:42
+shopping items can expand and collapse (top 5 ebay results)
+
 mdA -- 2018-05-30 17:15:50
 added task handling db functions, implemented time difference calculations, fixed some bugs
 
-mdA -- 2018-06-01 14:01:35
-added fxn to get num of completed tasks every day of a given month, changed endTime's dummy val in db to a datetime instead of -1
-
-mdA -- 2018-06-04 11:00:39
-restructured db to store nontimed tasks, added fxns for getting data for visualizations
-
-
 yiduoK -- 2018-06-01 13:32:21
 shopping stuff in /shopping route; just a dummy item now need to adapt it to any item user inputs
+
+mdA -- 2018-06-01 14:01:35
+added fxn to get num of completed tasks every day of a given month, changed endTime's dummy val in db to a datetime instead of -1
 
 yiduoK -- 2018-06-02 00:48:24
 -shopping stuff in /shopping route
@@ -37,24 +36,14 @@ yiduoK -- 2018-06-02 00:48:24
 yiduoK -- 2018-06-02 16:37:40
 -ebay stuff implemented!
 -when you click on an item you gives you top 5 ebay results under it and they are hyperlinked
-=======
-jennyG -- 2018-05-14 19:30
-Created devlog and uploaded design doc
 
-jennyG -- 2018-05-16 13:41
-Created index.html, create.html, and login.html (allows users to create account and log in), started app.py and added routes related to those html files
+mdA -- 2018-06-04 11:00:39
+restructured db to store nontimed tasks, added fxns for getting data for visualizations
 
-jennyG -- 2018-05-21 13:57
-Created db table so users can now create accounts and log in, also worked on the home ("tasks" route) page, which has a section allowing users to add tasks/reminders
+yiduoK -- 2018-06-07 15:06:15
+-can delete/complete shopping items now! 
+-works 100% of the time! 
+-even when expanded with ebay results!
 
-mdA -- 2018-05-22 22:05:16
-cleaned and restructured code, wrote main dbHelper fxns, got logins and creates working, added log.sh file, fixed devlog
-
-mdA -- 2018-05-22 22:19:16
-fixed devlog location, fixed a button link
-
-mdA -- 2018-05-30 17:15:50
-added task handling db functions, implemented time difference calculations, fixed some bugs
 mdA -- 2018-06-07 15:11:53
 tasks can be added now, switchedd to local files, used ajax for leaderboard data
-
