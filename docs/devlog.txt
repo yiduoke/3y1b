@@ -13,12 +13,43 @@ cleaned and restructured code, wrote main dbHelper fxns, got logins and creates 
 mdA -- 2018-05-22 22:19:16
 fixed devlog location, fixed a button link
 
+yiduoK -- 2018-05-30 17:01:42
+shopping items can expand and collapse (top 5 ebay results)
+
 mdA -- 2018-05-30 17:15:50
 added task handling db functions, implemented time difference calculations, fixed some bugs
+
+yiduoK -- 2018-06-01 13:32:21
+shopping stuff in /shopping route; just a dummy item now need to adapt it to any item user inputs
 
 mdA -- 2018-06-01 14:01:35
 added fxn to get num of completed tasks every day of a given month, changed endTime's dummy val in db to a datetime instead of -1
 
+yiduoK -- 2018-06-02 00:48:24
+-shopping stuff in /shopping route
+-looping back to the /shopping page, no more "successful submission" page because that's distracting
+-items are successfully added and retrieved from the database
+-when a new user is made, their shopping table is also made
+-deleted all users and associated tables because of the associated shopping tables that had to be made
+-still need the search button next to each shopping item to show top 5 ebay results
+
+yiduoK -- 2018-06-02 16:37:40
+-ebay stuff implemented!
+-when you click on an item you gives you top 5 ebay results under it and they are hyperlinked
+
 mdA -- 2018-06-04 11:00:39
 restructured db to store nontimed tasks, added fxns for getting data for visualizations
+
+yiduoK -- 2018-06-07 15:06:15
+-can delete/complete shopping items now! 
+-works 100% of the time! 
+-even when expanded with ebay results!
+
+mdA -- 2018-06-07 15:11:53
+tasks can be added now, switchedd to local files, used ajax for leaderboard data
+mdA -- 2018-06-07 17:53:53
+added startTask buttons to task list, fixed no image available bug
+
+mdA -- 2018-06-07 18:33:06
+fixed shop styling, prevented duplicate tasks from being entered, added complete task button
 

@@ -16,7 +16,9 @@ IMPORTANT NOTES:
 '''
 
 #path to db file from this file. should switch to os.path.dirname on droplet
-dbPath = '../data/db.db'
+
+dbPath = os.path.dirname(__file__) or '.'
+dbPath += '/../data/db.db'
 
 #in case we use more than one db, not likely
 def switchDb(path):
@@ -119,7 +121,7 @@ def userExists(username):
 #adds a new user. adds their login info to users table, and makes a new unique table for their tasks
 def addUser(username, password):
     createTable(username, [['task', 'TEXT PRIMARY KEY'], ['taskType', 'TEXT'], ['startTime', 'TIMESTAMP'], ['endTime', 'TIMESTAMP'], ['expectedTime', 'INTEGER'], ['actualTime', 'REAL'], ['timeDifference', 'REAL']])
-    
+    createTable(username+"Shopping", [['item', 'TEXT PRIMARY KEY']])
     db = openDb()
     cursor = getCursor(db)
     insertUser = "INSERT INTO users (username, password) VALUES ('%s', '%s');" % (username, password)
@@ -140,8 +142,20 @@ def addTask(username, task, taskType, startTime, expectedTime):
     cursor = getCursor(db)
     dummyTime = datetime(1, 1, 1, 0, 0)
     
-    cursor.execute('INSERT INTO ' + username + ' VALUES (?, ?, ?, ?, ?, ?, ?)', (task, taskType, startTime, dummyTime, expectedTime, -1, -1))
+    duplicates = cursor.execute('SELECT task FROM ' + username + ' WHERE task = ?;', (task,)).fetchone()
+    
+    if(duplicates == None):
+        cursor.execute('INSERT INTO ' + username + ' VALUES (?, ?, ?, ?, ?, ?, ?)', (task, taskType, startTime, dummyTime, expectedTime, -1, -1))
+        
+    saveDb(db)
+    closeDb(db)
 
+def startTask(username, task):
+    db = openDb()
+    cursor = getCursor(db)
+    
+    cursor.execute('UPDATE ' + username + ' SET startTime = ? WHERE task = ?', (datetime.now(), task))
+    
     saveDb(db)
     closeDb(db)
 
@@ -190,3 +204,91 @@ def getNumCompleted(day, tasks):
             count += 1
 
     return count
+
+#returns a list of the tasks a given user hasn't completed yet
+def getUncompletedTasks(username):
+    db = openDb()
+    cursor = getCursor(db)
+    
+    cursor.execute('SELECT task FROM %s WHERE timeDifference = -1 ORDER BY startTime ASC' % (username))
+    
+    return [i[0] for i in cursor.fetchall()]
+
+# adds an item to be shopped by a user to their own shopping table
+def addShop(username, item):
+    item = item.strip()
+    db = openDb()
+    cursor = getCursor(db)
+
+    cmdString = 'SELECT item FROM ' + username + 'Shopping WHERE item = "%s";' % (item,)
+    items = cursor.execute(cmdString).fetchone()
+
+    #only add the shopping item if it doesn't already exist
+    if (items == None):
+        # INSERT INTO margaretShopping VALUES 'cat food'
+        cursor.execute('INSERT INTO ' + username + 'Shopping VALUES (?)', (item,))
+        
+    saveDb(db)
+    closeDb(db)
+
+def completeShop(username, item):
+    db = openDb()
+    cursor = getCursor(db)
+
+    # DELETE FROM margaretShopping WHERE item = 'cat food'
+    cursor.execute('DELETE FROM ' + username + "Shopping WHERE item = ?", item)
+
+    saveDb(db)
+    closeDb(db)
+
+def getItems(username):
+    db = openDb()
+    cursor = getCursor(db)
+    
+    # SELECT * FROM margaretShopping
+    # gets everything from margaret's shopping list
+    items = cursor.execute("SELECT * FROM " + username + "Shopping").fetchall()
+    print items
+    print "those were the items"
+    return items
+
+# adds an item to be shopped by a user to their own shopping table
+def addShop(username, item):
+    item = item.strip()
+    db = openDb()
+    cursor = getCursor(db)
+
+    cmdString = 'SELECT item FROM ' + username + 'Shopping WHERE item = "%s";' % (item,)
+    items = cursor.execute(cmdString).fetchone()
+
+    #only add the shopping item if it doesn't already exist
+    if (items == None):
+        # INSERT INTO margaretShopping VALUES 'cat food'
+        cursor.execute('INSERT INTO ' + username + 'Shopping VALUES (?)', (item,))
+
+    saveDb(db)
+    closeDb(db)
+
+def completeShop(username, item):
+    db = openDb()
+    cursor = getCursor(db)
+
+    # DELETE FROM margaretShopping WHERE item = 'cat food'
+    cursor.execute('DELETE FROM ' + username + "Shopping WHERE item = (?)", (item,))
+    items = cursor.execute("SELECT * FROM " + username + "Shopping").fetchall()
+    print items
+    print "those were the items after completing an item..."
+    
+    saveDb(db)
+    closeDb(db)
+
+def getItems(username):
+    db = openDb()
+    cursor = getCursor(db)
+
+    # SELECT * FROM margaretShopping
+    # gets everything from margaret's shopping list
+    items = cursor.execute("SELECT * FROM " + username + "Shopping").fetchall()
+    print items
+    print "those were the items"
+    return items
