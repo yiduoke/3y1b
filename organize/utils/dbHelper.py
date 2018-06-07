@@ -16,7 +16,9 @@ IMPORTANT NOTES:
 '''
 
 #path to db file from this file. should switch to os.path.dirname on droplet
-dbPath = 'data/db.db'
+
+dbPath = os.path.dirname(__file__) or '.'
+dbPath += '/../data/db.db'
 
 #in case we use more than one db, not likely
 def switchDb(path):
@@ -191,6 +193,14 @@ def getNumCompleted(day, tasks):
 
     return count
 
+#returns a list of the tasks a given user hasn't completed yet
+def getUncompletedTasks(username):
+    db = openDb()
+    cursor = getCursor(db)
+    
+    cursor.execute('SELECT task FROM %s ORDER BY startTime ASC' % (username))
+    
+    return [i[0] for i in cursor.fetchall()]
 
 # adds an item to be shopped by a user to their own shopping table
 def addShop(username, item):
@@ -205,7 +215,7 @@ def addShop(username, item):
     if (items == None):
         # INSERT INTO margaretShopping VALUES 'cat food'
         cursor.execute('INSERT INTO ' + username + 'Shopping VALUES (?)', (item,))
-
+        
     saveDb(db)
     closeDb(db)
 

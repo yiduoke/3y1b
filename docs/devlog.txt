@@ -55,3 +55,6 @@ fixed devlog location, fixed a button link
 
 mdA -- 2018-05-30 17:15:50
 added task handling db functions, implemented time difference calculations, fixed some bugs
+mdA -- 2018-06-07 15:11:53
+tasks can be added now, switchedd to local files, used ajax for leaderboard data
+

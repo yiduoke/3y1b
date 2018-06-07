@@ -2,6 +2,7 @@ from flask import Flask, flash, render_template, request, session, redirect, url
 import urllib2, json
 import sqlite3
 import os
+from datetime import datetime
 import utils.dbHelper as db
 
 app = Flask(__name__)
@@ -70,19 +71,22 @@ def addUser():
 @app.route("/tasks")
 def tasks():
     if isLoggedIn():
-        user=session["username"]
-        return render_template("home.html", loggedin=isLoggedIn())
+        username=session["username"]
+        return render_template("home.html", loggedin=isLoggedIn(), tasks=db.getUncompletedTasks(username))
     else:
         return redirect(url_for("login_page"))
 
 #User submits task/reminder
-@app.route('/submitted', methods=["POST"])
-def submitted():
+@app.route('/submitTask', methods=["POST"])
+def submitTask():
     if isLoggedIn():
-        user=session["username"]
-        task=request.form["task"]
-        #db.addTask(user, task) #calls db method 
-        return render_template("submitted.html", username=user, loggedin=isLoggedIn())
+        username = session["username"]
+        task = request.form["task"]
+        expectedTime = request.form['taskTime']
+        print type(expectedTime)
+        taskType = 'NONTIMED' if expectedTime == '' else 'TIMED'
+        db.addTask(username, task, taskType, datetime.now(), expectedTime)
+        return render_template("submitted.html", username=username, loggedin=isLoggedIn())
     else:
         return redirect(url_for("login_page"))
 
@@ -90,7 +94,7 @@ def submitted():
 def get_python_data():
     #dic={1:2,2:5,3:7}
     #return json.dumps(convertToList(dic,"Jan",18))
-
+    #data = db.getCompletedMonth('md', 6, 2018)
     data=[{'date':"12-Apr-18", 'tasks':5},{'date':"13-Apr-18",'tasks':6},{'date':"14-Apr-18",'tasks':5},{'date':"15-Apr-18",'tasks':1},{'date':"16-Apr-18",'tasks':5},{'date':"17-Apr-18",'tasks':6},{'date':"18-Apr-18",'tasks':15},{'date':"19-Apr-18",'tasks':6},{'date':"20-Apr-18",'tasks':5},{'date':"21-Apr-18",'tasks':6},{'date':"22-Apr-18",'tasks':5},{'date':"23-Apr-18",'tasks':6},{'date':"24-Apr-18",'tasks':5},{'date':"25-Apr-18",'tasks':6},{'date':"26-Apr-18",'tasks':5},{'date':"27-Apr-18",'tasks':6}]
     
     return json.dumps(data)
@@ -102,7 +106,7 @@ def leaderboard():
         #taskDict=db.getCompletedMonth(user,
         #dic={1:2,2:5,3:7}
         #data=convertToList(dic,"Jan",18)
-        return render_template("leaderboard.html", tasks=data,username=user, loggedin=isLoggedIn())
+        return render_template("leaderboard.html", username=user, loggedin=isLoggedIn())
     else:
         return redirect(url_for("login_page"))
 
