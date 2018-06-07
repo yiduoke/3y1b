@@ -76,16 +76,29 @@ def tasks():
     else:
         return redirect(url_for("login_page"))
 
+@app.route('/startTask/<task>', methods=["POST"])
+def startTask(task):
+    task.replace('%20', '')
+    username = session['username']
+    print task
+    db.startTask(username, task)
+
+@app.route('/completeTask/<task>', methods=["POST"])
+def completeTask(task):
+    task.replace('%20', '')
+    username = session['username']
+    db.completeTask(username, task)
+
 #User submits task/reminder
 @app.route('/submitTask', methods=["POST"])
 def submitTask():
     if isLoggedIn():
         username = session["username"]
         task = request.form["task"]
-        expectedTime = request.form['taskTime']
+        expectedTime = request.form['taskTime'] or -1
         print type(expectedTime)
-        taskType = 'NONTIMED' if expectedTime == '' else 'TIMED'
-        db.addTask(username, task, taskType, datetime.now(), expectedTime)
+        taskType = 'NONTIMED' if expectedTime == -1 else 'TIMED'
+        db.addTask(username, task, taskType, datetime(1, 1, 1, 0, 0), expectedTime)
         return render_template("submitted.html", username=username, loggedin=isLoggedIn())
     else:
         return redirect(url_for("login_page"))
@@ -174,7 +187,8 @@ def ebay(item):
 
     for i in range(5):
         title_list.append(d["findItemsByKeywordsResponse"][0]["searchResult"][0]["item"][i]["title"][0])
-        picture_list.append(d["findItemsByKeywordsResponse"][0]["searchResult"][0]["item"][i]["galleryURL"][0])
+        galleryUrl = d["findItemsByKeywordsResponse"][0]["searchResult"][0]["item"][i]["galleryURL"][0] if 'galleryURL' in d["findItemsByKeywordsResponse"][0]["searchResult"][0]["item"][i].keys() else 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/480px-No_image_available.svg.png'
+        picture_list.append(galleryUrl)
         price_list.append(d["findItemsByKeywordsResponse"][0]["searchResult"][0]["item"][i]["sellingStatus"][0]["convertedCurrentPrice"][0]["__value__"])
         url_list.append(d["findItemsByKeywordsResponse"][0]["searchResult"][0]["item"][i]["viewItemURL"][0])
     

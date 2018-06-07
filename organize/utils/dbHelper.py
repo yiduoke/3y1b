@@ -142,8 +142,20 @@ def addTask(username, task, taskType, startTime, expectedTime):
     cursor = getCursor(db)
     dummyTime = datetime(1, 1, 1, 0, 0)
     
-    cursor.execute('INSERT INTO ' + username + ' VALUES (?, ?, ?, ?, ?, ?, ?)', (task, taskType, startTime, dummyTime, expectedTime, -1, -1))
+    duplicates = cursor.execute('SELECT task FROM ' + username + ' WHERE task = ?;', (task,)).fetchone()
+    
+    if(duplicates == None):
+        cursor.execute('INSERT INTO ' + username + ' VALUES (?, ?, ?, ?, ?, ?, ?)', (task, taskType, startTime, dummyTime, expectedTime, -1, -1))
+        
+    saveDb(db)
+    closeDb(db)
 
+def startTask(username, task):
+    db = openDb()
+    cursor = getCursor(db)
+    
+    cursor.execute('UPDATE ' + username + ' SET startTime = ? WHERE task = ?', (datetime.now(), task))
+    
     saveDb(db)
     closeDb(db)
 
@@ -198,7 +210,7 @@ def getUncompletedTasks(username):
     db = openDb()
     cursor = getCursor(db)
     
-    cursor.execute('SELECT task FROM %s ORDER BY startTime ASC' % (username))
+    cursor.execute('SELECT task FROM %s WHERE timeDifference = -1 ORDER BY startTime ASC' % (username))
     
     return [i[0] for i in cursor.fetchall()]
 
@@ -232,6 +244,13 @@ def completeShop(username, item):
 def getItems(username):
     db = openDb()
     cursor = getCursor(db)
+    
+    # SELECT * FROM margaretShopping
+    # gets everything from margaret's shopping list
+    items = cursor.execute("SELECT * FROM " + username + "Shopping").fetchall()
+    print items
+    print "those were the items"
+    return items
 
 # adds an item to be shopped by a user to their own shopping table
 def addShop(username, item):

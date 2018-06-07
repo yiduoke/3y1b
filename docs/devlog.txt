@@ -47,3 +47,9 @@ yiduoK -- 2018-06-07 15:06:15
 
 mdA -- 2018-06-07 15:11:53
 tasks can be added now, switchedd to local files, used ajax for leaderboard data
+mdA -- 2018-06-07 17:53:53
+added startTask buttons to task list, fixed no image available bug
+
+mdA -- 2018-06-07 18:33:06
+fixed shop styling, prevented duplicate tasks from being entered, added complete task button
+

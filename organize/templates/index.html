@@ -1,95 +1,95 @@
 <!DOCTYPE html>
 <html style="height: 100%">
   <head>
-    <script type="text/javascript" src="http://code.jquery.com/jquery-latest.js"></script>
-    <link rel="stylesheet" href="static/css/bootstrap.min.css">
-    <link rel="stylesheet" href="static/css/custom.css">
+    <script type="text/javascript" src="/static/jquery-3.3.1.min.js"></script>
+    <link rel="stylesheet" href="/static/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/static/css/custom.css">
     
-  {% block head %}
+    {% block head %}
     <title>{% block title %} Home {% endblock %}</title>
     {% endblock %}
-    </head>
+  </head>
   <body {% block background %}
 	style="height: 100%; background-image:
 	       url({{url_for('static', filename='covered.jpg')}})"
 	{% endblock %}>
 
-<div class="container">
-  <!-- TOP BAR =================================== -->
-  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container">
+      <!-- TOP BAR =================================== -->
+      <nav class="navbar navbar-expand-lg navbar-light bg-light">
 
-    <a class="navbar-brand" href="#">ORGANIZER</a>
+	<a class="navbar-brand" href="#">ORGANIZER</a>
 
 
-      <!-- left part of navbar -->
-      <ul class="navbar-nav navbar-left">
-        <li class="nav-item active">
-          <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
-        </li>
+	<!-- left part of navbar -->
+	<ul class="navbar-nav navbar-left">
+          <li class="nav-item active">
+            <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
+          </li>
 
-        {% if loggedin %}
-        <li class="nav-item ">
-          <a class="nav-link" href="/tasks">Tasks</a>
-        </li>
-        <li class="nav-item ">
-          <a class="nav-link" href="/shopping">Shop</a>
-        </li>
-        <li class="nav-item ">
-          <a class="nav-link" href="/leaderboard">Leaderboard</a>
-        </li>
-      </ul>
+          {% if loggedin %}
+          <li class="nav-item ">
+            <a class="nav-link" href="/tasks">Tasks</a>
+          </li>
+          <li class="nav-item ">
+            <a class="nav-link" href="/shopping">Shop</a>
+          </li>
+          <li class="nav-item ">
+            <a class="nav-link" href="/leaderboard">Leaderboard</a>
+          </li>
+	</ul>
 
-      <!-- right part of navbar -->
-      <ul class= "nav navbar-nav ml-auto">
-        <li class="nav-item">
-          <a href="/account/logout" ><button class="btn btn-outline-success my-2 my-sm-0 nav_button" >Logout</button> </a>
-        </li>
-      </ul>
+	<!-- right part of navbar -->
+	<ul class= "nav navbar-nav ml-auto">
+          <li class="nav-item">
+            <a href="/account/logout" ><button class="btn btn-outline-success my-2 my-sm-0 nav_button" >Logout</button> </a>
+          </li>
+	</ul>
 
         {% else %}
         <li class="nav-item">
           <a class="nav-link" href="/create">Join</a>
         </li>
-      </ul>
+</ul>
 
-      <ul class = "nav navbar-nav ml-auto">
-        <li class = "nav-item">
-          <a href="/login" ><button class="btn btn-outline-success my-2 my-sm-0">Login</button> </a>
-        </li>
-      </ul>
+<ul class = "nav navbar-nav ml-auto">
+  <li class = "nav-item">
+    <a href="/login" ><button class="btn btn-outline-success my-2 my-sm-0">Login</button> </a>
+  </li>
+</ul>
 
-        {% endif %}
-  </nav>
+{% endif %}
+</nav>
 </div>
 <div class="body">
-<br>
-{% block body %}
-<div class="container" style="padding:10px; text-align: center; background: lightgray url(../static/"woodbackground.jpg"); width:100%; height: 100%;">
-	
-	<div class="row" style="padding-top:50px;">
-		<div class="col-sm">
-			<img src="../static/listicon.png" style="width:75%; height:75%;"/>
-		</div>
-		<div class="col-sm">
-			<img src="../static/calendaricon.png" style="width:75%; height:75%;"/>
-		</div>
-		<div class="col-sm">
-			<img src="../static/graphicon.png" style="width:75%; height:75%;"/>
-		</div>
-	</div>
-	
-	<h1>A new way to enhance productivity.</h1>
-	<p><li>Add to your calendar</li>
-		<li>Add to your to-do list</li>
-		<li>Set goal completion times</li>
-		<li>Get timed for every task you want to get done</li>
-		<li>Join a community of productive individuals</li>
-		<li>Visualize your productivity</li>
-		<li> Get on the universal productivity leaderboard</li>
-	</p>
-</div>
+  <br>
+  {% block body %}
+  <div class="container" style="padding:10px; text-align: center; background: lightgray url(../static/"woodbackground.jpg"); width:100%; height: 100%;">
+    
+    <div class="row" style="padding-top:50px;">
+      <div class="col-sm">
+	<img src="../static/listicon.png" style="width:75%; height:75%;"/>
+      </div>
+      <div class="col-sm">
+	<img src="../static/calendaricon.png" style="width:75%; height:75%;"/>
+      </div>
+      <div class="col-sm">
+	<img src="../static/graphicon.png" style="width:75%; height:75%;"/>
+      </div>
+    </div>
+    
+    <h1>A new way to enhance productivity.</h1>
+    <p><li>Add to your calendar</li>
+      <li>Add to your to-do list</li>
+      <li>Set goal completion times</li>
+      <li>Get timed for every task you want to get done</li>
+      <li>Join a community of productive individuals</li>
+      <li>Visualize your productivity</li>
+      <li> Get on the universal productivity leaderboard</li>
+    </p>
+  </div>
 
-{% endblock %}
+  {% endblock %}
 </div>
 <br>
 <br>
