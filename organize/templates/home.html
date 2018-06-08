@@ -152,38 +152,17 @@ Home
       </form>
     </div>
     <div class="col-md-9" style="height:100%; background-color: #D9D9D9; box-sizing: border-box; border-radius: 4px; border: 2px solid #ccc; padding: 12px 20px;">
-      <p>tasks will go here</p>
-      
+
       {% for task in tasks %}
       <div class="task">
 	<p style="display: inline-block">{{task}}</p>
 	<button class="startButton" style="display: inline-block">Start Task</button>
       </div>
       {% endfor %}
-      
+ 	
     </div>
   </div>
-  <div class="col-md-3" style="text-align: center; background-color: #D9D9D9; padding: 5px; padding-top:10px">
-    (If task is in progress) You have X minutes left to complete the last task you started!
-    <br>
-    (If task is not in progress) You are not currently timing any tasks!
-    <br><br>
-    <h4 style="font-size:20px">START THE TIMER</h4>
-    <form action ="/taskstarted" method="POST">
-      <select name="task" style="width:70%">
-	<option value="something">use jinja to get all tasks</option>
-      </select>
-      <input type="submit" value="Start">
-    </form>
-    <br>
-    <h4 style="font-size:20px">END THE TIMER</h4>
-    <form action="/taskended" method="POST">
-      <select name="task" style="width:70%">
-	<option value="something">use jinja to get all tasks in progress</option>
-      </select>
-      <input type="submit" value="End">
-    </form>
-  </div>
+  
 </div>
 
 
