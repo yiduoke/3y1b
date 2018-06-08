@@ -115,7 +115,7 @@ def get_python_data():
 @app.route('/leaderboard', methods=["POST","GET"])
 def leaderboard():
     if isLoggedIn():
-        if flask.request.method=="POST":
+        if request.method=="POST":
             month=request.form["month"]
         else:
             numMonth=datetime.now().month
