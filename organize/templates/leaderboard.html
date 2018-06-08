@@ -62,7 +62,8 @@
 </ul>
 
 {% endif %}
-</nav>
+</nav><br>
+<h3>Completed Tasks</h3>
 <script>
 
   // set the dimensions and margins of the graph
@@ -128,5 +129,27 @@
   })
 
 </script>
+<br><br>
+<p>Generate graph for (Month, Year)</p>
+<form method="POST" action="/leaderboard">
+<select name="month">
+  <option value="Jan">January</option>
+  <option value="Feb">February</option>
+  <option value="Mar">March</option>
+  <option value="Apr">April</option>
+  <option value="May">May</option>
+  <option value="Jun">June</option>
+  <option value="Jul">July</option>
+  <option value="Aug">August</option>
+  <option value="Sep">September</option>
+  <option value="Oct">October</option>
+  <option value="Nov">November</option>
+  <option value="Dec">December</option>
+</select>
+<select name="year">
+  <option value="eighteen">18</option>
+</select>
+<input type="submit" name="form" value="Submit" class="btn btn-outline-primary">
+</form>
 </body>
 </html>

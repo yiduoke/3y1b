@@ -112,9 +112,37 @@ def get_python_data():
     
     return json.dumps(data)
 
-@app.route('/leaderboard')
+@app.route('/leaderboard', methods=["POST","GET"])
 def leaderboard():
     if isLoggedIn():
+        if flask.request.method=="POST":
+            month=request.form["month"]
+        else:
+            numMonth=datetime.now().month
+            if numMonth==1:
+                month="January"
+            elif numMonth==2:
+                month="February"
+            elif numMonth==3:
+                month="March"
+            elif numMonth==4:
+                month="April"
+            elif numMonth==5:
+                month="May"
+            elif numMonth==6:
+                month="June"
+            elif numMonth==7:
+                month="July"
+            elif numMonth==8:
+                month="August"
+            elif numMonth==9:
+                month="September"
+            elif numMonth==10:
+                month="October"
+            elif numMonth==11:
+                month="Nobvember"
+            elif numMonth==12:
+                month="December"
         user=session["username"]
         #taskDict=db.getCompletedMonth(user,
         #dic={1:2,2:5,3:7}
