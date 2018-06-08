@@ -58,7 +58,7 @@ styled index page, includes brief summary of site
 mdA -- 2018-06-04 11:00:39
 restructured db to store nontimed tasks, added fxns for getting data for visualizations
 
-chenK -- 2018-06-04 15:32
+karenC -- 2018-06-04 15:32
 added placeholder text, basic layout of pages complete
 
 karenC -- 2018-06-06 18:11
@@ -77,3 +77,5 @@ added startTask buttons to task list, fixed no image available bug
 mdA -- 2018-06-07 18:33:06
 fixed shop styling, prevented duplicate tasks from being entered, added complete task button
 
+karenC -- 2018-06-08 13:59
+changing tasks page layout to match with new system of starting and completing tasks
