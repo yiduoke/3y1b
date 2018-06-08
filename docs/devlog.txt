@@ -4,8 +4,17 @@ Created devlog and uploaded design doc
 jennyG -- 2018-05-16 13:41
 Created index.html, create.html, and login.html (allows users to create account and log in), started app.py and added routes related to those html files
 
+chenK -- 2018-05-18 13:53
+Added bootstrap to files, started custom css
+
 jennyG -- 2018-05-21 13:57
 Created db table so users can now create accounts and log in, also worked on the home ("tasks" route) page, which has a section allowing users to add tasks/reminders
+
+chenK -- 2018-05-21 16:21
+created temporary calendar layout for tasks page
+
+chenK -- 2018-05-22 20:12
+worked on calendar layout, researching javascript for calendar
 
 mdA -- 2018-05-22 22:05:16
 cleaned and restructured code, wrote main dbHelper fxns, got logins and creates working, added log.sh file, fixed devlog
@@ -13,11 +22,17 @@ cleaned and restructured code, wrote main dbHelper fxns, got logins and creates 
 mdA -- 2018-05-22 22:19:16
 fixed devlog location, fixed a button link
 
+chenK -- 2018-05-24 20:07
+bootstrapped index page after log in, continued working on calendar layout
+
 yiduoK -- 2018-05-30 17:01:42
 shopping items can expand and collapse (top 5 ebay results)
 
 mdA -- 2018-05-30 17:15:50
 added task handling db functions, implemented time difference calculations, fixed some bugs
+
+chenK -- 2018-05-30 19:20
+changed form layout for submitting tasks
 
 yiduoK -- 2018-06-01 13:32:21
 shopping stuff in /shopping route; just a dummy item now need to adapt it to any item user inputs
@@ -37,8 +52,17 @@ yiduoK -- 2018-06-02 16:37:40
 -ebay stuff implemented!
 -when you click on an item you gives you top 5 ebay results under it and they are hyperlinked
 
+chenK -- 2018-06-03 16:42
+styled index page, includes brief summary of site
+
 mdA -- 2018-06-04 11:00:39
 restructured db to store nontimed tasks, added fxns for getting data for visualizations
+
+chenK -- 2018-06-04 15:32
+added placeholder text, basic layout of pages complete
+
+chenK -- 2018-06-06 18:11
+changed design to account for timing tasks
 
 yiduoK -- 2018-06-07 15:06:15
 -can delete/complete shopping items now! 
