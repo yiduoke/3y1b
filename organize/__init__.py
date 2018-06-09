@@ -190,6 +190,8 @@ def submitted_shopping():
     if isLoggedIn():
         user=session["username"]
         item=request.form['item']
+        print item 
+        print "ummm after refreshing maybe?"
         db.addShop(user, item) #calls db method to add shopping item
 
         item_list = db.getItems(session["username"])
@@ -230,8 +232,6 @@ def ebay(item):
 def shopped(item):
     item = item.strip()
     db.completeShop(session["username"], item)
-    print item
-    print "that was the item supposed to be taken off"
 
 if __name__ == "__main__":
     app.debug = True
