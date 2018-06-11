@@ -85,3 +85,6 @@ stylizing tasks page layout and shopping page layout
 
 yiduoK -- 2018-06-09 14:49
 triangle thing in front of items works now; did NOT use lists for these at all
+
+jennyG -- 2018-06-11 13:49
+leaderboard page works now: it displays a line graph (number of tasks completed for each day of the month) for a month you select (only June 2018 is valid)
