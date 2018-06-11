@@ -193,6 +193,8 @@ def submitted_shopping():
     if isLoggedIn():
         user=session["username"]
         item=request.form['item']
+        print item 
+        print "ummm after refreshing maybe?"
         db.addShop(user, item) #calls db method to add shopping item
 
         item_list = db.getItems(session["username"])
@@ -207,6 +209,7 @@ def submitted_shopping():
 # this is jQuery sending a shopping item to Flask and Flask sending back ebay results for that item
 @app.route('/ebay/<item>', methods = ['POST'])
 def ebay(item):
+    item = item.encode('ascii',errors='ignore')
     item = item.strip()
     item = item.replace(" ", "%20")
     api_url = "https://svcs.ebay.com/services/search/FindingService/v1?OPERATION-NAME=findItemsByKeywords&SERVICE-VERSION=1.0.0&SECURITY-APPNAME=MdAbedin-test-PRD-a5d705b3d-43eeb6a2&RESPONSE-DATA-FORMAT=JSON&REST-PAYLOAD&keywords="+item
@@ -231,10 +234,11 @@ def ebay(item):
 
 @app.route('/complete_shopping/<item>', methods = ['POST'])
 def shopped(item):
+    item = item.encode('ascii',errors='ignore')
     item = item.strip()
-    db.completeShop(session["username"], item)
     print item
-    print "that was the item supposed to be taken off"
+    print "after ascii ignoring??"
+    db.completeShop(session["username"], item)
 
 if __name__ == "__main__":
     app.debug = True

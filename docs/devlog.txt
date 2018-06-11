@@ -79,3 +79,9 @@ fixed shop styling, prevented duplicate tasks from being entered, added complete
 
 karenC -- 2018-06-08 13:59
 changing tasks page layout to match with new system of starting and completing tasks
+
+karenC -- 2018-06-09 12:04
+stylizing tasks page layout and shopping page layout
+
+yiduoK -- 2018-06-09 14:49
+triangle thing in front of items works now; did NOT use lists for these at all
