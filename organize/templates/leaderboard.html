@@ -64,6 +64,7 @@
 {% endif %}
 </nav><br>
 <h3>Completed Tasks</h3>
+{% if show == "False" %}
 <script>
 
   // set the dimensions and margins of the graph
@@ -129,6 +130,10 @@
   })
 
 </script>
+{% else %}
+<br>
+<h5 style="color:red;">Please select a valid month</h5>
+{% endif %}
 <br><br>
 <p>Generate graph for (Month, Year)</p>
 <form method="POST" action="/leaderboard">

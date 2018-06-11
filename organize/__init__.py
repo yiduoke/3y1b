@@ -120,34 +120,37 @@ def leaderboard():
         else:
             numMonth=datetime.now().month
             if numMonth==1:
-                month="January"
+                month="Jan"
             elif numMonth==2:
-                month="February"
+                month="Feb"
             elif numMonth==3:
-                month="March"
+                month="Mar"
             elif numMonth==4:
-                month="April"
+                month="Apr"
             elif numMonth==5:
                 month="May"
             elif numMonth==6:
-                month="June"
+                month="Jun"
             elif numMonth==7:
-                month="July"
+                month="Jul"
             elif numMonth==8:
-                month="August"
+                month="Aug"
             elif numMonth==9:
-                month="September"
+                month="Sep"
             elif numMonth==10:
-                month="October"
+                month="Oct"
             elif numMonth==11:
-                month="Nobvember"
+                month="Nov"
             elif numMonth==12:
-                month="December"
+                month="Dec"
         user=session["username"]
         #taskDict=db.getCompletedMonth(user,
         #dic={1:2,2:5,3:7}
         #data=convertToList(dic,"Jan",18)
-        return render_template("leaderboard.html", username=user, loggedin=isLoggedIn())
+        error=True
+        if month=="Jun":
+            error=False
+        return render_template("leaderboard.html", show=str(error),username=user, loggedin=isLoggedIn())
     else:
         return redirect(url_for("login_page"))
 
