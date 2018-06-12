@@ -1,6 +1,7 @@
 '''
 todo:
 - make stuff not crash when duplicate tasks are entered
+- fix bug where it shows start task button again after starting task and refreshing
 '''
 
 import sqlite3
@@ -213,6 +214,33 @@ def getUncompletedTasks(username):
     cursor.execute('SELECT task FROM %s WHERE timeDifference = -1 ORDER BY startTime ASC' % (username))
     
     return [i[0] for i in cursor.fetchall()]
+    
+#returns the progress data for a given task of a given user
+def getProgress(username, task):
+    db = openDb()
+    cursor = getCursor(db)
+    
+    cursor.execute('SELECT startTime, expectedTime FROM ' + username + ' WHERE task = ?', (task,))
+    
+    progress = cursor.fetchone()
+    elapsedTimeDelta = (datetime.now()-progress[0])
+    elapsedTime = (elapsedTimeDelta.seconds + (elapsedTimeDelta.microseconds/10000)/100.0)
+    expectedTime = progress[1]
+    percent = (elapsedTime / (expectedTime*60)) * 100 if (elapsedTime / (expectedTime*60)) < 1 else 100
+
+    return [elapsedTime, expectedTime, percent]
+
+def getTimes(username, task):
+    db = openDb()
+    cursor = getCursor(db)
+    
+    cursor.execute('SELECT startTime, expectedTime FROM ' + username + ' WHERE task = ?', (task,))
+    
+    data = cursor.fetchone()
+    startTime = data[0]
+    expectedTime = data[1]
+    
+    return [[startTime.year, startTime.month, startTime.day, startTime.hour, startTime.minute, startTime.second, startTime.microsecond/1000], expectedTime]
 
 # adds an item to be shopped by a user to their own shopping table
 def addShop(username, item):

@@ -80,7 +80,7 @@ def tasks():
 def startTask(task):
     task.replace('%20', '')
     username = session['username']
-    print task
+    
     db.startTask(username, task)
 
 @app.route('/completeTask/<task>', methods=["POST"])
@@ -102,6 +102,14 @@ def submitTask():
         return render_template("submitted.html", username=username, loggedin=isLoggedIn())
     else:
         return redirect(url_for("login_page"))
+
+@app.route('/getTimes/<task>')
+def getTimes(task):
+    task.replace('%20', '')
+    username = session['username']
+    times = db.getTimes(username, task)
+    
+    return json.dumps(times)
 
 @app.route('/getpythondata')
 def get_python_data():

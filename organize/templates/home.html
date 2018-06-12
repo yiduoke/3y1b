@@ -155,9 +155,15 @@ Home
       <p>tasks will go here</p>
       
       {% for task in tasks %}
-      <div class="task">
-	<p style="display: inline-block">{{task}}</p>
-	<button class="startButton" style="display: inline-block">Start Task</button>
+      <div class="container">
+	<div class="row">
+	  <span class="col-sm-3">
+	    <p style="display: inline-block">{{task}}</p>
+	  </span>
+	  <span class="col-sm-3">
+	    <button class="startButton" style="display: inline-block">Start Task</button>
+	  </span>
+	</div>
       </div>
       {% endfor %}
       
