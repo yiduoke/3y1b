@@ -21,7 +21,11 @@ function ebay(e){
 			var title = document.createElement("DIV");
 			title.setAttribute("class", "title");
 			var title_text = document.createTextNode(obj.titles[i]);
-			title.appendChild(title_text);
+
+			var url_element2 = document.createElement("A");
+			url_element2.setAttribute("HREF", obj.urls[i]);
+			url_element2.appendChild(title_text);
+			title.appendChild(url_element2);
 			var new_line = document.createElement("BR");
 			title.appendChild(new_line);
 
@@ -40,12 +44,18 @@ function ebay(e){
 
 			var price = document.createElement("DIV");
 			price.setAttribute("class", "price");
-			var price_text = document.createTextNode(obj.prices[i]);
-			title.appendChild(price_text);
+			var url_element = document.createElement("A");
+			url_element.setAttribute("HREF", obj.urls[i]);
+			var two_places = parseFloat(Math.round(obj.prices[i] * 100) / 100).toFixed(2);
+			var price_text = document.createTextNode("$"+two_places);
+			price.appendChild(price_text);
 
 			result.appendChild(title);
 			result.appendChild(url);
 			result.appendChild(price);
+			result.appendChild(document.createElement("BR"));
+			result.appendChild(document.createElement("BR"));
+			
 			this.appendChild(result);
 		}
 	}

@@ -1,3 +1,53 @@
+.itemAndButton{
+    border-radius: 8px;
+    background-color: #F4C8CA;
+    transition-duration: 0.3s;
+}
+
+.shopped, .margaret-button{
+    border-radius: 12px;
+    background-color: #DBF4A7;
+    border: none;
+    color: #6B5E62;
+    padding: 10px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 14px;
+    margin: 4px 2px;
+    cursor: pointer;
+    transition-duration: 0.3s;
+}
+
+.shopped:hover, .margaret-button:hover {
+    background-color: #D8D0C1;
+    color: #122932;
+}
+
+.itemAndButton:hover{
+    background-color: #FFE8D4;
+}
+
+.title, .price, .url{
+    margin-left: 50px;
+}
+
+.title{
+    text-decoration: underline
+}
+
+.item{
+    display: inline-block; 
+    color: #63554C;
+    font-size: 17px;
+}
+
+.title, .price{
+    display: inline-block; 
+    color: #63554C;
+    font-size: 15px;
+}
+
 /* W3.CSS 4.10 February 2018 by Jan Egil and Borge Refsnes */
 html{box-sizing:border-box}*,*:before,*:after{box-sizing:inherit}
 /* Extract from normalize.css by Nicolas Gallagher and Jonathan Neal git.io/normalize */

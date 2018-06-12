@@ -91,4 +91,8 @@ leaderboard page works now: it displays a line graph (number of tasks completed 
 
 yiduoK -- 2018-06-12 01:48:23
 -aestheticized the shopping page (could be better, but better than before)
--more divs now so we could aestheticize even more now! (based on title, price, divs etc) 
+-more divs now so we could aestheticize even more now! (based on title, price, divs etc)
+
+yiduoK -- 2018-06-12 17:46:10
+-done aestheticizing shopping page
+-task page people pls up your game
