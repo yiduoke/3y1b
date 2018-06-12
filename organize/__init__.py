@@ -193,6 +193,9 @@ def submitted_shopping():
     if isLoggedIn():
         user=session["username"]
         item=request.form['item']
+
+        item = item.encode('ascii',errors='ignore')
+        item = item.strip()
         print item 
         print "ummm after refreshing maybe?"
         db.addShop(user, item) #calls db method to add shopping item
@@ -201,7 +204,6 @@ def submitted_shopping():
         item_list_clean = []
         for item in item_list:
             item_list_clean.append(item[0])
-        # return render_template("submitted.html", username=user, loggedin=isLoggedIn())
         return render_template("shopping.html", items = item_list_clean, loggedin=isLoggedIn())
     else:
         return redirect(url_for("login_page"))
