@@ -56,3 +56,6 @@ fixed shop styling, prevented duplicate tasks from being entered, added complete
 mdA -- 2018-06-12 16:28:08
 added progress bars, switched from getting progress data from python to calculating in home.js, fixed lag/jumping bars bug
 
+mdA -- 2018-06-12 19:34:51
+removed page between adding and seeing tasks, made progress bars update on refresh
+

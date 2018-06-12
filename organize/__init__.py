@@ -72,7 +72,7 @@ def addUser():
 def tasks():
     if isLoggedIn():
         username=session["username"]
-        return render_template("home.html", loggedin=isLoggedIn(), tasks=db.getUncompletedTasks(username))
+        return render_template("home.html", loggedin=isLoggedIn(), startedTasks=db.getStartedTasks(username), nonStartedTasks = db.getNonStartedTasks(username))
     else:
         return redirect(url_for("login_page"))
 
@@ -95,11 +95,11 @@ def submitTask():
     if isLoggedIn():
         username = session["username"]
         task = request.form["task"]
-        expectedTime = request.form['taskTime'] or -1
-        print type(expectedTime)
-        taskType = 'NONTIMED' if expectedTime == -1 else 'TIMED'
-        db.addTask(username, task, taskType, datetime(1, 1, 1, 0, 0), expectedTime)
-        return render_template("submitted.html", username=username, loggedin=isLoggedIn())
+        if(task != ''):
+            expectedTime = request.form['taskTime'] or -1
+            taskType = 'NONTIMED' if expectedTime == -1 else 'TIMED'
+            db.addTask(username, task, taskType, datetime(1, 1, 1, 0, 0), expectedTime)
+        return redirect(url_for('tasks'))
     else:
         return redirect(url_for("login_page"))
 

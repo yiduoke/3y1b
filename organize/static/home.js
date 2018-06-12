@@ -1,5 +1,57 @@
+var bars = document.getElementsByClassName('progress');
+var startTimes = {};
+var expectedTimes = {};
+
+function getTimes(){
+    for(var i = 0; i < bars.length; i++){
+	var bar = bars[i];
+	var task = bars[i].parentNode.firstElementChild.firstElementChild.innerHTML;
+	
+	var url = '/getTimes/' + task;
+	$.ajax({
+	    async: false,
+	    type: 'GET',
+	    url: url,
+	    success: function(data) {
+		var times = $.parseJSON(data);
+		var startTime = times[0];
+		startTimes[task] = new Date(startTime[0], startTime[1]-1, startTime[2], startTime[3], startTime[4], startTime[5], startTime[6]);
+		var expectedTime = times[1];
+		expectedTimes[task] = expectedTime;
+	    }
+	});
+    }
+}
+
+function getColor(value){
+    if(value >= 100) return 'hsl(0,100%,50%)';
+    //value from 0 to 100
+    value /= 100;
+    var hue=((1-value)*120).toString(10);
+    return ["hsl(",hue,",100%,50%)"].join("");
+}
+
+function animateBars(){
+    for(var i = 0; i < bars.length; i++){
+	var bar = bars[i];
+	var task = bars[i].parentNode.firstElementChild.firstElementChild.innerHTML;
+	
+	if(!isNaN(startTimes[task])){
+	    var startTime = startTimes[task];
+	    var elapsedTime = Date.now() - startTime;
+	    var expectedTime = expectedTimes[task];
+	    var percent = (elapsedTime / (expectedTime*60*1000)) < 1 ? (elapsedTime / (expectedTime*60*1000)) * 100 : 100;
+	    
+	    bar.firstElementChild.style.width = percent.toString() + '%';
+	    bar.firstElementChild.style.backgroundColor = getColor(percent);
+	}
+    }
+}
+
 $(document).ready(function(){
-    var startButtons = document.getElementsByClassName("startButton");
+    getTimes();
+    
+    var taskButtons = document.getElementsByClassName("taskButton");
     
     function handleTask(e){
 	if(this.innerHTML == 'Start Task'){
@@ -40,38 +92,9 @@ $(document).ready(function(){
 	}
     }
 
-    for (var i = 0; i < startButtons.length; i++){
-	startButtons[i].addEventListener("click", handleTask);
+    for (var i = 0; i < taskButtons.length; i++){
+	taskButtons[i].addEventListener("click", handleTask);
     }
+    
+    setInterval(animateBars, 1000);
 });
-
-var bars = document.getElementsByClassName('progress');
-var startTimes = {};
-var expectedTimes = {};
-
-function getColor(value){
-    if(value >= 100) return 'hsl(0,100%,50%)';
-    //value from 0 to 100
-    value /= 100;
-    var hue=((1-value)*120).toString(10);
-    return ["hsl(",hue,",100%,50%)"].join("");
-}
-
-function animateBars(){
-    for(var i = 0; i < bars.length; i++){
-	var bar = bars[i];
-	var task = bars[i].parentNode.firstElementChild.firstElementChild.innerHTML;
-	
-	if(!isNaN(startTimes[task])){
-	    var startTime = startTimes[task];
-	    var elapsedTime = Date.now() - startTime;
-	    var expectedTime = expectedTimes[task];
-	    var percent = (elapsedTime / (expectedTime*60*1000)) < 1 ? (elapsedTime / (expectedTime*60*1000)) * 100 : 100;
-	    
-	    bar.firstElementChild.style.width = percent.toString() + '%';
-	    bar.firstElementChild.style.backgroundColor = getColor(percent);
-	}
-    }
-}
-
-setInterval(animateBars, 1000);

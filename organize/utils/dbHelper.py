@@ -206,29 +206,23 @@ def getNumCompleted(day, tasks):
 
     return count
 
-#returns a list of the tasks a given user hasn't completed yet
-def getUncompletedTasks(username):
+#returns a list of the tasks a given user has created but not started yet
+def getNonStartedTasks(username):
     db = openDb()
     cursor = getCursor(db)
     
-    cursor.execute('SELECT task FROM %s WHERE timeDifference = -1 ORDER BY startTime ASC' % (username))
+    cursor.execute('SELECT task, startTime FROM %s WHERE timeDifference == -1 ORDER BY startTime ASC' % (username,))
     
-    return [i[0] for i in cursor.fetchall()]
-    
-#returns the progress data for a given task of a given user
-def getProgress(username, task):
-    db = openDb()
-    cursor = getCursor(db)
-    
-    cursor.execute('SELECT startTime, expectedTime FROM ' + username + ' WHERE task = ?', (task,))
-    
-    progress = cursor.fetchone()
-    elapsedTimeDelta = (datetime.now()-progress[0])
-    elapsedTime = (elapsedTimeDelta.seconds + (elapsedTimeDelta.microseconds/10000)/100.0)
-    expectedTime = progress[1]
-    percent = (elapsedTime / (expectedTime*60)) * 100 if (elapsedTime / (expectedTime*60)) < 1 else 100
+    return [i[0] for i in cursor.fetchall() if i[1] == datetime(1, 1, 1, 0, 0)]
 
-    return [elapsedTime, expectedTime, percent]
+#returns a list of the tasks a given user has started but not completed yet
+def getStartedTasks(username):
+    db = openDb()
+    cursor = getCursor(db)
+    
+    cursor.execute('SELECT task, startTime FROM %s WHERE timeDifference == -1 ORDER BY startTime ASC' % (username,))
+    
+    return [i[0] for i in cursor.fetchall() if i[1] != datetime(1, 1, 1, 0, 0)]
 
 def getTimes(username, task):
     db = openDb()
