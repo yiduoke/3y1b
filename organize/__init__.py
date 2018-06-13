@@ -72,7 +72,7 @@ def addUser():
 def tasks():
     if isLoggedIn():
         username=session["username"]
-        return render_template("home.html", loggedin=isLoggedIn(), tasks=db.getUncompletedTasks(username))
+        return render_template("home.html", loggedin=isLoggedIn(), startedTasks=db.getStartedTasks(username), nonStartedTasks = db.getNonStartedTasks(username))
     else:
         return redirect(url_for("login_page"))
 
@@ -80,7 +80,7 @@ def tasks():
 def startTask(task):
     task.replace('%20', '')
     username = session['username']
-    print task
+    
     db.startTask(username, task)
 
 @app.route('/completeTask/<task>', methods=["POST"])
@@ -95,24 +95,29 @@ def submitTask():
     if isLoggedIn():
         username = session["username"]
         task = request.form["task"]
-        expectedTime = request.form['taskTime'] or -1
-        print type(expectedTime)
-        taskType = 'NONTIMED' if expectedTime == -1 else 'TIMED'
-        db.addTask(username, task, taskType, datetime(1, 1, 1, 0, 0), expectedTime)
-        return render_template("submitted.html", username=username, loggedin=isLoggedIn())
+        if(task != ''):
+            expectedTime = request.form['taskTime'] or -1
+            taskType = 'NONTIMED' if expectedTime == -1 else 'TIMED'
+            db.addTask(username, task, taskType, datetime(1, 1, 1, 0, 0), expectedTime)
+        return redirect(url_for('tasks'))
     else:
         return redirect(url_for("login_page"))
 
+@app.route('/getTimes/<task>')
+def getTimes(task):
+    task.replace('%20', '')
+    username = session['username']
+    times = db.getTimes(username, task)
+    
+    return json.dumps(times)
+
 @app.route('/getpythondata')
 def get_python_data():
-    user=session["username"]
-    dic=db.getCompletedMonth(user,6,18)
-    data=convertToList(dic,"Jun",18)
-    #data=[{'date':"12-Apr-18", 'tasks':5},{'date':"13-Apr-18",'tasks':6},{'date':"14-Apr-18",'tasks':5},{'date':"15-Apr-18",'tasks':1},{'date':"16-Apr-18",'tasks':5},{'date':"17-Apr-18",'tasks':6},{'date':"18-Apr-18",'tasks':15},{'date':"19-Apr-18",'tasks':6},{'date':"20-Apr-18",'tasks':5},{'date':"21-Apr-18",'tasks':6},{'date':"22-Apr-18",'tasks':5},{'date':"23-Apr-18",'tasks':6},{'date':"24-Apr-18",'tasks':5},{'date':"25-Apr-18",'tasks':6},{'date':"26-Apr-18",'tasks':5},{'date':"27-Apr-18",'tasks':6}]
+    data=[{'date':"12-Apr-18", 'tasks':5},{'date':"13-Apr-18",'tasks':6},{'date':"14-Apr-18",'tasks':5},{'date':"15-Apr-18",'tasks':1},{'date':"16-Apr-18",'tasks':5},{'date':"17-Apr-18",'tasks':6},{'date':"18-Apr-18",'tasks':15},{'date':"19-Apr-18",'tasks':6},{'date':"20-Apr-18",'tasks':5},{'date':"21-Apr-18",'tasks':6},{'date':"22-Apr-18",'tasks':5},{'date':"23-Apr-18",'tasks':6},{'date':"24-Apr-18",'tasks':5},{'date':"25-Apr-18",'tasks':6},{'date':"26-Apr-18",'tasks':5},{'date':"27-Apr-18",'tasks':6}]
     
     return json.dumps(data)
 
-@app.route('/leaderboard', methods=["POST","GET"])
+@app.route('/leaderboard')
 def leaderboard():
     if isLoggedIn():
         if request.method=="POST":
@@ -143,6 +148,7 @@ def leaderboard():
                 month="Nov"
             elif numMonth==12:
                 month="Dec"
+
         user=session["username"]
         #taskDict=db.getCompletedMonth(user,
         #dic={1:2,2:5,3:7}

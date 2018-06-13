@@ -151,19 +151,38 @@ Home
 	<input type="submit" value="Add Task">
       </form>
     </div>
-    <div class="col-md-9" style="height:300px; width: 90%;background-color: #D9D9D9; box-sizing: border-box; border-radius: 4px; border: 2px solid #ccc; padding: 12px 20px; ">
-	<h4 style="">TASKS TO DO:</h4>
-		
-      {% for task in tasks %}
-      <div class="task">
-	<p style="display: inline-block">&#9657; {{task}}</p>
-	<button class="startButton" style="display: inline-block">Start Task</button>
+    <div class="col-md-9" style="height:100%; background-color: #D9D9D9; box-sizing: border-box; border-radius: 4px; border: 2px solid #ccc; padding: 12px 20px;">
+      <p>tasks will go here</p>
+      
+      {% for task in startedTasks %}
+      <div class="container">
+	<div class="row">
+	  <span class="col-sm-3">
+	    <p style="display: inline-block">{{task}}</p>
+	  </span>
+	  <span class="col-sm-3">
+	    <button class="taskButton" style="display: inline-block">Complete Task</button>
+	  </span>
+	  <div class="progress col-sm-2" style="padding-left: 0px; padding-right: 0px; "><div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%; background-color:hsl(120,100%,50%);"></div></div>
+	</div>
       </div>
       {% endfor %}
- 	
+
+      {% for task in nonStartedTasks %}
+      <div class="container">
+	<div class="row">
+	  <span class="col-sm-3">
+	    <p style="display: inline-block">{{task}}</p>
+	  </span>
+	  <span class="col-sm-3">
+	    <button class="taskButton" style="display: inline-block">Start Task</button>
+	  </span>
+	</div>
+      </div>
+      {% endfor %}
+      
     </div>
   </div>
-  
 </div>
 
 

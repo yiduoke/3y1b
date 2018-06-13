@@ -52,6 +52,7 @@ yiduoK -- 2018-06-02 16:37:40
 -ebay stuff implemented!
 -when you click on an item you gives you top 5 ebay results under it and they are hyperlinked
 
+<<<<<<< HEAD
 karenC -- 2018-06-03 16:42
 styled index page, includes brief summary of site
 
@@ -93,6 +94,15 @@ yiduoK -- 2018-06-12 01:48:23
 -aestheticized the shopping page (could be better, but better than before)
 -more divs now so we could aestheticize even more now! (based on title, price, divs etc)
 
+mdA -- 2018-06-12 16:28:08
+added progress bars, switched from getting progress data from python to calculating in home.js, fixed lag/jumping bars bug
+
 yiduoK -- 2018-06-12 17:46:10
 -done aestheticizing shopping page
 -task page people pls up your game
+
+mdA -- 2018-06-12 19:34:51
+removed page between adding and seeing tasks, made progress bars update on refresh
+mdA -- 2018-06-12 20:05:02
+merged md to master, fixed conflicts, cleaned db
+
