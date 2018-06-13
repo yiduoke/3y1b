@@ -23,6 +23,21 @@ function getTimes(){
     }
 }
 
+function getType(task){
+    var taskType = '';
+    var url = '/getType/' + task;
+    $.ajax({
+	async: false,
+	type: 'GET',
+	url: url,
+	success: function(data) {
+	    taskType = $.parseJSON(data);
+	}
+    });
+    
+    return taskType;
+}
+
 function getColor(value){
     if(value >= 100) return 'hsl(0,100%,50%)';
     //value from 0 to 100
@@ -64,7 +79,8 @@ $(document).ready(function(){
 	    
 	    this.innerHTML = 'Complete Task';
 	    
-	    var progressBar = document.createElement('div');
+	    if(getType(task) == 'TIMED'){
+		var progressBar = document.createElement('div');
 	    progressBar.innerHTML = '<div class="progress col-sm-2" style="padding-left: 0px; padding-right: 0px; "><div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%; background-color:hsl(120,100%,50%);"></div></div>';
 
 	    var url = '/getTimes/' + task;
@@ -78,7 +94,8 @@ $(document).ready(function(){
 	    });
 	    
 	    this.parentNode.parentNode.appendChild(progressBar.firstChild);
-	    bars = document.getElementsByClassName('progress');
+		bars = document.getElementsByClassName('progress');
+	    }
 	}
 	else{
 	    var task = this.parentNode.parentNode.firstElementChild.firstElementChild.innerHTML

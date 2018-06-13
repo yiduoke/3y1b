@@ -72,7 +72,7 @@ def addUser():
 def tasks():
     if isLoggedIn():
         username=session["username"]
-        return render_template("home.html", loggedin=isLoggedIn(), startedTasks=db.getStartedTasks(username), nonStartedTasks = db.getNonStartedTasks(username))
+        return render_template("home.html", loggedin=isLoggedIn(), startedTasks=db.getStartedTasks(username), nonTimedStartedTasks = db.getNonTimedStartedTasks(username), nonStartedTasks = db.getNonStartedTasks(username))
     else:
         return redirect(url_for("login_page"))
 
@@ -110,6 +110,14 @@ def getTimes(task):
     times = db.getTimes(username, task)
     
     return json.dumps(times)
+
+@app.route('/getType/<task>')
+def getType(task):
+    task.replace('%20', '')
+    username = session['username']
+    taskType = db.getType(username, task)
+    
+    return json.dumps(taskType)
 
 @app.route('/getpythondata')
 def get_python_data():

@@ -103,6 +103,9 @@ yiduoK -- 2018-06-12 17:46:10
 
 mdA -- 2018-06-12 19:34:51
 removed page between adding and seeing tasks, made progress bars update on refresh
+
 mdA -- 2018-06-12 20:05:02
 merged md to master, fixed conflicts, cleaned db
+mdA -- 2018-06-12 22:46:39
+removed progress bars from nontimed tasks, fixed some bugs
 
