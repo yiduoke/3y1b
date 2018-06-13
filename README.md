@@ -1,4 +1,4 @@
-# FINAL PROJECT: Organizer
+# FINAL PROJECT: Organize
 Pd 8 | 3Y1B: Md Abedin, Karen Chen, Jenny Gao, Yiduo Ke
 
 [link!](http://206.189.206.243/)
