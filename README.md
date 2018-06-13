@@ -4,7 +4,7 @@ Pd 8 | 3Y1B: Md Abedin, Karen Chen, Jenny Gao, Yiduo Ke
 [link!](http://206.189.206.243/)
 
 ## DESCRIPTION
-The goal of this website is to help users stay organized.  Users can add tasks to their to-do list and simultaneously view tasks in list form and calendar form (on the same page). A shopping list is on a page separate from tasks. A statistics page will create incentive to complete tasks in a timely manner.
+The goal of this website is to help users stay organized.  Users can add tasks to their to-do list. A shopping list is on a page separate from tasks. A statistics page will create incentive to complete tasks in a timely manner.
 
 ## Tasks Page
 Users can add tasks to complete and choose whether or not to be timed for a task and can start any time they wish. 
