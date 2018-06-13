@@ -15,7 +15,7 @@ function getTimes(){
 	    success: function(data) {
 		var times = $.parseJSON(data);
 		var startTime = times[0];
-		startTimes[task] = new Date(startTime[0], startTime[1]-1, startTime[2], startTime[3], startTime[4], startTime[5], startTime[6]);
+		startTimes[task] = new Date(startTime[0], startTime[1]-1, startTime[2], startTime[3]-4, startTime[4], startTime[5], startTime[6]);
 		var expectedTime = times[1];
 		expectedTimes[task] = expectedTime;
 	    }
