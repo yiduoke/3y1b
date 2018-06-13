@@ -1,7 +1,7 @@
 '''
 todo:
-- make stuff not crash when duplicate tasks are entered
-- fix bug where it shows start task button again after starting task and refreshing
+- remove progress bar from nontimed tasks
+- tell DW to install certifi
 '''
 
 import sqlite3
@@ -215,12 +215,21 @@ def getNonStartedTasks(username):
     
     return [i[0] for i in cursor.fetchall() if i[1] == datetime(1, 1, 1, 0, 0)]
 
-#returns a list of the tasks a given user has started but not completed yet
+#returns a list of the timed tasks a given user has started but not completed yet
 def getStartedTasks(username):
     db = openDb()
     cursor = getCursor(db)
     
-    cursor.execute('SELECT task, startTime FROM %s WHERE timeDifference == -1 ORDER BY startTime ASC' % (username,))
+    cursor.execute('SELECT task, startTime FROM %s WHERE timeDifference == -1 AND taskType == "TIMED" ORDER BY startTime ASC' % (username,))
+    
+    return [i[0] for i in cursor.fetchall() if i[1] != datetime(1, 1, 1, 0, 0)]
+
+#returns a list of the non-timed tasks a given user has started but not completed yet
+def getNonTimedStartedTasks(username):
+    db = openDb()
+    cursor = getCursor(db)
+    
+    cursor.execute('SELECT task, startTime FROM %s WHERE timeDifference == -1 AND taskType == "NONTIMED" ORDER BY startTime ASC' % (username,))
     
     return [i[0] for i in cursor.fetchall() if i[1] != datetime(1, 1, 1, 0, 0)]
 
@@ -235,6 +244,14 @@ def getTimes(username, task):
     expectedTime = data[1]
     
     return [[startTime.year, startTime.month, startTime.day, startTime.hour, startTime.minute, startTime.second, startTime.microsecond/1000], expectedTime]
+
+def getType(username, task):
+    db = openDb()
+    cursor = getCursor(db)
+    
+    cursor.execute('SELECT taskType FROM ' + username + ' WHERE task = ?', (task,))
+    
+    return cursor.fetchone()[0]
 
 # adds an item to be shopped by a user to their own shopping table
 def addShop(username, item):

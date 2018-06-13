@@ -167,6 +167,19 @@ Home
 	</div>
       </div>
       {% endfor %}
+      
+      {% for task in nonTimedStartedTasks %}
+      <div class="container">
+	<div class="row">
+	  <span class="col-sm-3">
+	    <p style="display: inline-block">{{task}}</p>
+	  </span>
+	  <span class="col-sm-3">
+	    <button class="taskButton" style="display: inline-block">Complete Task</button>
+	  </span>
+	</div>
+      </div>
+      {% endfor %}
 
       {% for task in nonStartedTasks %}
       <div class="container">
