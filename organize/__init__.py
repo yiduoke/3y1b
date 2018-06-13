@@ -113,11 +113,14 @@ def getTimes(task):
 
 @app.route('/getpythondata')
 def get_python_data():
-    data=[{'date':"12-Apr-18", 'tasks':5},{'date':"13-Apr-18",'tasks':6},{'date':"14-Apr-18",'tasks':5},{'date':"15-Apr-18",'tasks':1},{'date':"16-Apr-18",'tasks':5},{'date':"17-Apr-18",'tasks':6},{'date':"18-Apr-18",'tasks':15},{'date':"19-Apr-18",'tasks':6},{'date':"20-Apr-18",'tasks':5},{'date':"21-Apr-18",'tasks':6},{'date':"22-Apr-18",'tasks':5},{'date':"23-Apr-18",'tasks':6},{'date':"24-Apr-18",'tasks':5},{'date':"25-Apr-18",'tasks':6},{'date':"26-Apr-18",'tasks':5},{'date':"27-Apr-18",'tasks':6}]
+    user=session["username"]
+    dic=db.getCompletedMonth(user,6,18)
+    data=convertToList(dic,"Jun",18)
+    #data=[{'date':"12-Apr-18", 'tasks':5},{'date':"13-Apr-18",'tasks':6},{'date':"14-Apr-18",'tasks':5},{'date':"15-Apr-18",'tasks':1},{'date':"16-Apr-18",'tasks':5},{'date':"17-Apr-18",'tasks':6},{'date':"18-Apr-18",'tasks':15},{'date':"19-Apr-18",'tasks':6},{'date':"20-Apr-18",'tasks':5},{'date':"21-Apr-18",'tasks':6},{'date':"22-Apr-18",'tasks':5},{'date':"23-Apr-18",'tasks':6},{'date':"24-Apr-18",'tasks':5},{'date':"25-Apr-18",'tasks':6},{'date':"26-Apr-18",'tasks':5},{'date':"27-Apr-18",'tasks':6}]
     
     return json.dumps(data)
 
-@app.route('/leaderboard')
+@app.route('/leaderboard', methods=["POST","GET"])
 def leaderboard():
     if isLoggedIn():
         if request.method=="POST":
