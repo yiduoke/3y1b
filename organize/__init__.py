@@ -233,6 +233,7 @@ def ebay(item):
     path = dbPath = os.path.dirname(__file__) or '.'
     fd = open(path+"/static/ebay.txt", "r")
     key = fd.read()
+    key = key.strip()
     api_url = "https://svcs.ebay.com/services/search/FindingService/v1?OPERATION-NAME=findItemsByKeywords&SERVICE-VERSION=1.0.0&SECURITY-APPNAME=" + key + "&RESPONSE-DATA-FORMAT=JSON&REST-PAYLOAD&keywords="+item
     raw = urllib2.urlopen(api_url)
     string = raw.read()

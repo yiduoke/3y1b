@@ -12,6 +12,7 @@ function ebay(e){
 			async: false
 		}).done(function(response){
 			obj = JSON.parse(response);
+		    console.log(obj);
 		});
 
 		// adding the ebay results to an item entry
