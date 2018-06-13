@@ -159,7 +159,7 @@ def leaderboard():
         error=True
         if month=="Jun":
             error=False
-        return render_template("leaderboard.html", show=str(error),username=user, loggedin=isLoggedIn())
+        return render_template("leaderboard.html", heading=month,show=str(error),username=user, loggedin=isLoggedIn())
     else:
         return redirect(url_for("login_page"))
 
