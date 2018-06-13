@@ -2,7 +2,7 @@ import sqlite3
 import dbHelper as db
 from datetime import date,datetime
 
-#db.createUsersTable()
+db.createUsersTable()
 #db.addUser('md', 'md')
 #db.addTask('md', 'test', 'TIMED', datetime.now(), 5)
 #db.completeTask('md', 'get food quickly')
