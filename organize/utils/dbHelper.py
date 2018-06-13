@@ -18,6 +18,7 @@ IMPORTANT NOTES:
 
 #path to db file from this file. should switch to os.path.dirname on droplet
 
+timezone = ''
 dbPath = os.path.dirname(__file__) or '.'
 dbPath += '/../data/db.db'
 
@@ -155,25 +156,25 @@ def startTask(username, task):
     db = openDb()
     cursor = getCursor(db)
     
-    cursor.execute('UPDATE ' + username + ' SET startTime = ? WHERE task = ?', (datetime.now(), task))
+    cursor.execute('UPDATE ' + username + ' SET startTime = ? WHERE task = ?', (datetime.utcnow(), task))
     
     saveDb(db)
     closeDb(db)
 
-#completes a given task for a user, uses datetime.now() as the recorded completion time
+#completes a given task for a user, uses datetime.utcnow() as the recorded completion time
 #if the task was a nontimed task, it'll still add the completion time info, but won't be used later
 def completeTask(username, task):
     db = openDb()
     cursor = getCursor(db)
     
-    currentTime = datetime.now()
+    currentTime = datetime.utcnow()
     cursor.execute('SELECT startTime FROM %s WHERE task = ?' % (username), (task,))
     actualTime = currentTime - cursor.fetchone()[0]
     actualTime = actualTime.seconds/60.0
     cursor.execute('SELECT expectedTime FROM %s WHERE task = ?' % (username), (task,))
     timeDifference = cursor.fetchone()[0] - actualTime
     
-    cursor.execute('UPDATE ' + username + ' SET endTime = ?, actualTime = ?, timeDifference = ? WHERE task = ?', (datetime.now(), actualTime, timeDifference, task))
+    cursor.execute('UPDATE ' + username + ' SET endTime = ?, actualTime = ?, timeDifference = ? WHERE task = ?', (datetime.utcnow(), actualTime, timeDifference, task))
 
     saveDb(db)
     closeDb(db)

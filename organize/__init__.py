@@ -133,7 +133,7 @@ def leaderboard():
         if request.method=="POST":
             month=request.form["month"]
         else:
-            numMonth=datetime.now().month
+            numMonth=datetime.utcnow().month
             if numMonth==1:
                 month="Jan"
             elif numMonth==2:
