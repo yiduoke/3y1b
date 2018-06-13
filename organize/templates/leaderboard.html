@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html style="height: 100%">
 <head>
-  <link rel="stylesheet" href="../static/css/bootstrap.min.css">
-  <link rel="stylesheet" href="../static/custom.css" type="text/css">
-  <title>Leaderboard</title>
+ <link rel="stylesheet" href="/static/css/bootstrap.min.css" type="text/css">
+ <link rel="stylesheet" href="../static/custom.css" type="text/css">
+  <title>Statistics</title>
   <script src="../static/d3.v4.min.js"></script>
   <script src="../static/jquery-3.3.1.min.js"></script>
   <style> /* set the CSS */
@@ -17,46 +17,46 @@
   </style>
 </head>
 <body
-   {% block background %}
-   style="height: 100%; background-image:
-	  url({{url_for('static', filename='covered.jpg')}})"
-   {% endblock %}>
+  {% block background %}
+	style="height: 100%;"
+	{% endblock %}>
 
-  <!-- TOP BAR =================================== -->
-  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container">
+      <!-- TOP BAR =================================== -->
+      <nav class="navbar navbar-expand-lg navbar-light bg-light">
 
-    <a class="navbar-brand" href="#">ORGANIZER</a>
+	<a class="navbar-brand" href="#">ORGANIZER</a>
 
 
-    <!-- left part of navbar -->
-    <ul class="navbar-nav navbar-left">
-      <li class="nav-item active">
-        <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
-      </li>
+	<!-- left part of navbar -->
+	<ul class="navbar-nav navbar-left">
+          <li class="nav-item active">
+            <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
+          </li>
 
-      {% if loggedin %}
-      <li class="nav-item ">
-        <a class="nav-link" href="/tasks">Tasks</a>
-      </li>
-       <li class="nav-item ">
+          {% if loggedin %}
+          <li class="nav-item ">
+            <a class="nav-link" href="/tasks">Tasks</a>
+          </li>
+          <li class="nav-item ">
             <a class="nav-link" href="/shopping">Shop</a>
           </li>
-      <li class="nav-item ">
-        <a class="nav-link" href="/leaderboard">Leaderboard</a>
-      </li>
-    </ul>
+          <li class="nav-item ">
+            <a class="nav-link" href="/leaderboard">Statistics</a>
+          </li>
+	</ul>
 
-    <!-- right part of navbar -->
-    <ul class= "nav navbar-nav ml-auto">
-      <li class="nav-item">
-        <a href="/account/logout" ><button class="btn btn-outline-success my-2 my-sm-0 nav_button" >Logout</button> </a>
-      </li>
-    </ul>
+	<!-- right part of navbar -->
+	<ul class= "nav navbar-nav ml-auto">
+          <li class="nav-item">
+            <a href="/account/logout" ><button class="btn btn-outline-success my-2 my-sm-0 nav_button" >Logout</button> </a>
+          </li>
+	</ul>
 
-    {% else %}
-    <li class="nav-item">
-      <a class="nav-link" href="/create">Join</a>
-    </li>
+        {% else %}
+        <li class="nav-item">
+          <a class="nav-link" href="/create">Join</a>
+        </li>
 </ul>
 
 <ul class = "nav navbar-nav ml-auto">
@@ -64,7 +64,7 @@
     <a href="/login" ><button class="btn btn-outline-success my-2 my-sm-0">Login</button> </a>
   </li>
 </ul>
-
+</div>
 {% endif %}
 </nav><br>
 <h3>Completed Tasks</h3>
