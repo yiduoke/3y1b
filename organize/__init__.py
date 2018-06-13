@@ -72,7 +72,7 @@ def addUser():
 def tasks():
     if isLoggedIn():
         username=session["username"]
-        return render_template("home.html", loggedin=isLoggedIn(), tasks=db.getUncompletedTasks(username))
+        return render_template("home.html", loggedin=isLoggedIn(), startedTasks=db.getStartedTasks(username), nonStartedTasks = db.getNonStartedTasks(username))
     else:
         return redirect(url_for("login_page"))
 
@@ -80,7 +80,7 @@ def tasks():
 def startTask(task):
     task.replace('%20', '')
     username = session['username']
-    print task
+    
     db.startTask(username, task)
 
 @app.route('/completeTask/<task>', methods=["POST"])
@@ -95,13 +95,21 @@ def submitTask():
     if isLoggedIn():
         username = session["username"]
         task = request.form["task"]
-        expectedTime = request.form['taskTime'] or -1
-        print type(expectedTime)
-        taskType = 'NONTIMED' if expectedTime == -1 else 'TIMED'
-        db.addTask(username, task, taskType, datetime(1, 1, 1, 0, 0), expectedTime)
-        return render_template("submitted.html", username=username, loggedin=isLoggedIn())
+        if(task != ''):
+            expectedTime = request.form['taskTime'] or -1
+            taskType = 'NONTIMED' if expectedTime == -1 else 'TIMED'
+            db.addTask(username, task, taskType, datetime(1, 1, 1, 0, 0), expectedTime)
+        return redirect(url_for('tasks'))
     else:
         return redirect(url_for("login_page"))
+
+@app.route('/getTimes/<task>')
+def getTimes(task):
+    task.replace('%20', '')
+    username = session['username']
+    times = db.getTimes(username, task)
+    
+    return json.dumps(times)
 
 @app.route('/getpythondata')
 def get_python_data():
@@ -143,6 +151,7 @@ def leaderboard():
                 month="Nov"
             elif numMonth==12:
                 month="Dec"
+
         user=session["username"]
         #taskDict=db.getCompletedMonth(user,
         #dic={1:2,2:5,3:7}
@@ -150,7 +159,7 @@ def leaderboard():
         error=True
         if month=="Jun":
             error=False
-        return render_template("leaderboard.html", show=str(error),username=user, loggedin=isLoggedIn())
+        return render_template("leaderboard.html", heading=month,show=str(error),username=user, loggedin=isLoggedIn())
     else:
         return redirect(url_for("login_page"))
 

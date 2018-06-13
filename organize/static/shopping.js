@@ -38,6 +38,7 @@ function ebay(e){
 			picture.setAttribute("src", obj.pictures[i]);
 			picture.setAttribute("width", "100");
 			picture.setAttribute("height", "100");
+
 			url_element.appendChild(picture);
 
 			url.appendChild(url_element);

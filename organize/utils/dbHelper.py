@@ -1,6 +1,7 @@
 '''
 todo:
 - make stuff not crash when duplicate tasks are entered
+- fix bug where it shows start task button again after starting task and refreshing
 '''
 
 import sqlite3
@@ -205,14 +206,52 @@ def getNumCompleted(day, tasks):
 
     return count
 
-#returns a list of the tasks a given user hasn't completed yet
-def getUncompletedTasks(username):
+#returns a list of the tasks a given user has created but not started yet
+def getNonStartedTasks(username):
     db = openDb()
     cursor = getCursor(db)
     
-    cursor.execute('SELECT task FROM %s WHERE timeDifference = -1 ORDER BY startTime ASC' % (username))
+    cursor.execute('SELECT task, startTime FROM %s WHERE timeDifference == -1 ORDER BY startTime ASC' % (username,))
     
-    return [i[0] for i in cursor.fetchall()]
+    return [i[0] for i in cursor.fetchall() if i[1] == datetime(1, 1, 1, 0, 0)]
+
+#returns a list of the tasks a given user has started but not completed yet
+def getStartedTasks(username):
+    db = openDb()
+    cursor = getCursor(db)
+    
+    cursor.execute('SELECT task, startTime FROM %s WHERE timeDifference == -1 ORDER BY startTime ASC' % (username,))
+    
+    return [i[0] for i in cursor.fetchall() if i[1] != datetime(1, 1, 1, 0, 0)]
+
+def getTimes(username, task):
+    db = openDb()
+    cursor = getCursor(db)
+    
+    cursor.execute('SELECT startTime, expectedTime FROM ' + username + ' WHERE task = ?', (task,))
+    
+    data = cursor.fetchone()
+    startTime = data[0]
+    expectedTime = data[1]
+    
+    return [[startTime.year, startTime.month, startTime.day, startTime.hour, startTime.minute, startTime.second, startTime.microsecond/1000], expectedTime]
+
+# adds an item to be shopped by a user to their own shopping table
+def addShop(username, item):
+    item = item.strip()
+    db = openDb()
+    cursor = getCursor(db)
+
+    cmdString = 'SELECT item FROM ' + username + 'Shopping WHERE item = "%s";' % (item,)
+    items = cursor.execute(cmdString).fetchone()
+
+    #only add the shopping item if it doesn't already exist
+    if (items == None):
+        # INSERT INTO margaretShopping VALUES 'cat food'
+        cursor.execute('INSERT INTO ' + username + 'Shopping VALUES (?)', (item,))
+        
+    saveDb(db)
+    closeDb(db)
 
 def completeShop(username, item):
     db = openDb()
