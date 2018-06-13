@@ -121,11 +121,13 @@ def getType(task):
 
 @app.route('/getpythondata')
 def get_python_data():
-    data=[{'date':"12-Apr-18", 'tasks':5},{'date':"13-Apr-18",'tasks':6},{'date':"14-Apr-18",'tasks':5},{'date':"15-Apr-18",'tasks':1},{'date':"16-Apr-18",'tasks':5},{'date':"17-Apr-18",'tasks':6},{'date':"18-Apr-18",'tasks':15},{'date':"19-Apr-18",'tasks':6},{'date':"20-Apr-18",'tasks':5},{'date':"21-Apr-18",'tasks':6},{'date':"22-Apr-18",'tasks':5},{'date':"23-Apr-18",'tasks':6},{'date':"24-Apr-18",'tasks':5},{'date':"25-Apr-18",'tasks':6},{'date':"26-Apr-18",'tasks':5},{'date':"27-Apr-18",'tasks':6}]
-    
+    user=session["username"]
+    dic=db.getCompletedMonth(user,6,18)
+    data=convertToList(dic,"Jun",18)
+    #data=[{'date':"12-Apr-18", 'tasks':5},{'date':"13-Apr-18",'tasks':6},{'date':"14-Apr-18",'tasks':5},{'date':"15-Apr-18",'tasks':1},{'date':"16-Apr-18",'tasks':5},{'date':"17-Apr-18",'tasks':6},{'date':"18-Apr-18",'tasks':15},{'date':"19-Apr-18",'tasks':6},{'date':"20-Apr-18",'tasks':5},{'date':"21-Apr-18",'tasks':6},{'date':"22-Apr-18",'tasks':5},{'date':"23-Apr-18",'tasks':6},{'date':"24-Apr-18",'tasks':5},{'date':"25-Apr-18",'tasks':6},{'date':"26-Apr-18",'tasks':5},{'date':"27-Apr-18",'tasks':6}]
     return json.dumps(data)
 
-@app.route('/leaderboard')
+@app.route('/leaderboard', methods=["POST","GET"])
 def leaderboard():
     if isLoggedIn():
         if request.method=="POST":
@@ -164,7 +166,7 @@ def leaderboard():
         error=True
         if month=="Jun":
             error=False
-        return render_template("leaderboard.html", show=str(error),username=user, loggedin=isLoggedIn())
+            return render_template("leaderboard.html", heading=month,show=str(error),username=user, loggedin=isLoggedIn())
     else:
         return redirect(url_for("login_page"))
 
@@ -228,7 +230,9 @@ def ebay(item):
     item = item.encode('ascii',errors='ignore')
     item = item.strip()
     item = item.replace(" ", "%20")
-    api_url = "https://svcs.ebay.com/services/search/FindingService/v1?OPERATION-NAME=findItemsByKeywords&SERVICE-VERSION=1.0.0&SECURITY-APPNAME=MdAbedin-test-PRD-a5d705b3d-43eeb6a2&RESPONSE-DATA-FORMAT=JSON&REST-PAYLOAD&keywords="+item
+    fd = open("static/ebay.txt", "r")
+    key = fd.read()
+    api_url = "https://svcs.ebay.com/services/search/FindingService/v1?OPERATION-NAME=findItemsByKeywords&SERVICE-VERSION=1.0.0&SECURITY-APPNAME=" + key + "&RESPONSE-DATA-FORMAT=JSON&REST-PAYLOAD&keywords="+item
     raw = urllib2.urlopen(api_url)
     string = raw.read()
     d = json.loads(string)
