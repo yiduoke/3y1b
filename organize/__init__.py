@@ -230,7 +230,8 @@ def ebay(item):
     item = item.encode('ascii',errors='ignore')
     item = item.strip()
     item = item.replace(" ", "%20")
-    fd = open("static/ebay.txt", "r")
+    path = dbPath = os.path.dirname(__file__) or '.'
+    fd = open(path+"/static/ebay.txt", "r")
     key = fd.read()
     api_url = "https://svcs.ebay.com/services/search/FindingService/v1?OPERATION-NAME=findItemsByKeywords&SERVICE-VERSION=1.0.0&SECURITY-APPNAME=" + key + "&RESPONSE-DATA-FORMAT=JSON&REST-PAYLOAD&keywords="+item
     raw = urllib2.urlopen(api_url)
